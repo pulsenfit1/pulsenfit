@@ -1,0 +1,2390 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PULSEN FIT | Energy that endures. — Premium Fitness Equipment</title>
+  <!-- Google Fonts: Montserrat (Geometric Headings) & Inter (Clean UI Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#E51B23',
+              redDark: '#C4141B',
+              black: '#171717',
+              charcoal: '#222222',
+              grey: '#777777',
+              light: '#F7F7F8',
+            }
+          },
+          fontFamily: {
+            heading: ['Montserrat', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+          boxShadow: {
+            'card': '0 10px 30px -10px rgba(23, 23, 23, 0.08)',
+            'card-hover': '0 20px 40px -12px rgba(23, 23, 23, 0.16)',
+            'red-glow': '0 10px 25px -5px rgba(229, 27, 35, 0.35)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Base Typography & Custom Utilities */
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #171717;
+      background-color: #FFFFFF;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Smooth Page Transition */
+    .page-view {
+      animation: fadeSlideUp 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F4F4F5;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #BDBDBD;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #E51B23;
+    }
+
+    /* Range Slider Accent */
+    input[type="range"] {
+      accent-color: #E51B23;
+    }
+
+    /* RTL Adjustments */
+    [dir="rtl"] .rtl-flip {
+      transform: scaleX(-1);
+    }
+
+    /* Drawer & Modal Backdrop Transitions */
+    .backdrop-fade {
+      transition: opacity 0.25s ease;
+    }
+    .drawer-slide {
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-brand-red selection:text-white flex flex-col min-h-screen">
+
+  <!-- ==================== TOP UTILITY BAR ==================== -->
+  <div class="bg-brand-black text-white text-xs py-2 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-4">
+        <span class="inline-flex items-center gap-1.5 font-medium tracking-wide">
+          <span class="w-2 h-2 rounded-full bg-brand-red animate-pulse"></span>
+          <span data-i18n="top_slogan">Energy that endures.</span>
+        </span>
+        <span class="hidden md:inline text-white/30">|</span>
+        <span class="hidden md:inline text-gray-300" data-i18n="top_sub">PULSEN FIT — Morocco & International Logistics</span>
+      </div>
+
+      <div class="flex items-center gap-3 sm:gap-5 ms-auto">
+        <!-- Track Order Quick Trigger -->
+        <button onclick="openAccountModal('orders')" class="hover:text-brand-red transition-colors flex items-center gap-1.5 font-medium">
+          <i class="fa-solid fa-truck-fast text-brand-red"></i>
+          <span data-i18n="nav_track">Track Order</span>
+        </button>
+
+        <span class="text-white/25">|</span>
+
+        <!-- Currency Switcher -->
+        <div class="flex items-center gap-1">
+          <i class="fa-solid fa-coins text-gray-400 text-[11px]"></i>
+          <select id="currencySelect" onchange="setCurrency(this.value)" aria-label="Currency" class="bg-transparent text-white font-semibold focus:outline-none cursor-pointer hover:text-brand-red transition-colors">
+            <option value="MAD" class="bg-brand-black text-white">MAD (DH)</option>
+            <option value="EUR" class="bg-brand-black text-white" selected>EUR (€)</option>
+            <option value="USD" class="bg-brand-black text-white">USD ($)</option>
+          </select>
+        </div>
+
+        <span class="text-white/25">|</span>
+
+        <!-- Language Switcher -->
+        <div class="flex items-center gap-1 bg-white/10 rounded-full p-0.5">
+          <button onclick="setLanguage('fr')" id="lang-fr" class="px-2 py-0.5 rounded-full text-[11px] font-bold transition-all">FR</button>
+          <button onclick="setLanguage('en')" id="lang-en" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-brand-red text-white transition-all">EN</button>
+          <button onclick="setLanguage('ar')" id="lang-ar" class="px-2 py-0.5 rounded-full text-[11px] font-bold transition-all">AR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== STICKY MAIN HEADER ==================== -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200/80 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Brand Logo (Light Version) -->
+        <a href="#home" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group focus:outline-none">
+          <!-- Custom SVG Circular P Emblem matching PULSEN FIT branding kit -->
+          <svg class="w-11 h-11 shrink-0 transition-transform duration-300 group-hover:scale-105" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="PULSEN FIT Emblem">
+            <!-- Outer Matte Black Ring -->
+            <circle cx="60" cy="60" r="56" fill="#FFFFFF" stroke="#171717" stroke-width="6.5" />
+            <!-- Inner Energetic Red Circle -->
+            <circle cx="60" cy="60" r="46.5" fill="#E51B23" />
+            <!-- Stylized Ergonomic Treadmill Handlebar 'P' in Pure White -->
+            <path d="M35 34 H71 C84.5 34 93 42.2 93 54 C93 65.8 84.5 74 71 74 H54.5 C49.5 74 46.5 76.8 44.8 81.8 L37.2 103.5 C32.5 101.5 28.2 98.8 24.5 95.5 L33.5 71.5 C36.8 62.8 43.2 59.5 53 59.5 H69.5 C75.2 59.5 78.8 56.8 78.8 53.5 C78.8 50.2 75.2 47.8 69.5 47.8 H44.5 C38.5 47.8 35 43.5 35 34 Z" fill="#FFFFFF" />
+          </svg>
+          <div class="flex flex-col">
+            <div class="font-heading font-black text-xl sm:text-2xl tracking-tight leading-none flex items-center gap-1.5">
+              <span class="text-brand-black">PULSEN</span>
+              <span class="text-brand-red">FIT</span>
+            </div>
+            <span class="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-grey mt-0.5">Energy that endures.</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-7" aria-label="Main Navigation">
+          <button onclick="navigateTo('home')" data-nav="home" class="nav-link text-sm font-heading font-bold uppercase tracking-wider text-brand-red border-b-2 border-brand-red py-1 transition-colors" data-i18n="nav_home">Home</button>
+          <button onclick="navigateTo('products')" data-nav="products" class="nav-link text-sm font-heading font-bold uppercase tracking-wider text-brand-black hover:text-brand-red py-1 transition-colors" data-i18n="nav_equipment">Our Equipment</button>
+          <button onclick="navigateTo('b2b')" data-nav="b2b" class="nav-link text-sm font-heading font-bold uppercase tracking-wider text-brand-black hover:text-brand-red py-1 transition-colors flex items-center gap-1.5">
+            <span data-i18n="nav_b2b">Business Solutions</span>
+            <span class="px-1.5 py-0.5 text-[10px] font-extrabold bg-brand-black text-white rounded">B2B</span>
+          </button>
+          <button onclick="navigateTo('about')" data-nav="about" class="nav-link text-sm font-heading font-bold uppercase tracking-wider text-brand-black hover:text-brand-red py-1 transition-colors" data-i18n="nav_about">About Us</button>
+          <button onclick="navigateTo('contact')" data-nav="contact" class="nav-link text-sm font-heading font-bold uppercase tracking-wider text-brand-black hover:text-brand-red py-1 transition-colors" data-i18n="nav_contact">Contact</button>
+        </nav>
+
+        <!-- Action Icons (Account/Wishlist, Quote Drawer, Cart, Mobile Hamburger) -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Account & Wishlist -->
+          <button onclick="openAccountModal('wishlist')" class="relative p-2.5 rounded-xl text-brand-black hover:bg-gray-100 transition-colors" title="Account & Wishlist">
+            <i class="fa-regular fa-heart text-lg"></i>
+            <span id="wishlistBadge" class="hidden absolute -top-0.5 -end-0.5 w-4 h-4 rounded-full bg-brand-black text-white text-[10px] font-bold flex items-center justify-center">0</span>
+          </button>
+
+          <!-- B2B Quote Request Drawer -->
+          <button onclick="openQuoteDrawer()" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border-2 border-brand-black text-brand-black hover:bg-brand-black hover:text-white text-xs font-heading font-bold uppercase tracking-wider transition-all">
+            <i class="fa-solid fa-file-invoice"></i>
+            <span data-i18n="btn_quote">Quote</span>
+            <span id="quoteBadge" class="px-1.5 py-0.2 rounded-full bg-brand-red text-white text-[10px] font-bold">0</span>
+          </button>
+
+          <!-- Shopping Cart Trigger -->
+          <button onclick="openCartDrawer()" class="relative p-2.5 rounded-xl bg-brand-red text-white hover:bg-brand-redDark shadow-red-glow transition-all flex items-center gap-2">
+            <i class="fa-solid fa-bag-shopping text-base"></i>
+            <span id="cartBadge" class="text-xs font-bold">0</span>
+          </button>
+
+          <!-- Mobile Menu Button -->
+          <button onclick="toggleMobileMenu()" class="lg:hidden p-2.5 rounded-xl text-brand-black hover:bg-gray-100 transition-colors" aria-label="Open Menu">
+            <i id="mobileMenuIcon" class="fa-solid fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-gray-200 px-4 pt-3 pb-6 space-y-2 shadow-xl">
+      <button onclick="navigateTo('home'); toggleMobileMenu();" class="block w-full text-start px-4 py-3 rounded-xl font-heading font-bold text-sm uppercase tracking-wider hover:bg-gray-50 text-brand-black" data-i18n="nav_home">Home</button>
+      <button onclick="navigateTo('products'); toggleMobileMenu();" class="block w-full text-start px-4 py-3 rounded-xl font-heading font-bold text-sm uppercase tracking-wider hover:bg-gray-50 text-brand-black" data-i18n="nav_equipment">Our Equipment</button>
+      <button onclick="navigateTo('b2b'); toggleMobileMenu();" class="block w-full text-start px-4 py-3 rounded-xl font-heading font-bold text-sm uppercase tracking-wider hover:bg-gray-50 text-brand-black flex items-center justify-between">
+        <span data-i18n="nav_b2b">Business Solutions (B2B)</span>
+        <span class="px-2 py-0.5 text-[10px] font-bold bg-brand-red text-white rounded">PRO</span>
+      </button>
+      <button onclick="navigateTo('about'); toggleMobileMenu();" class="block w-full text-start px-4 py-3 rounded-xl font-heading font-bold text-sm uppercase tracking-wider hover:bg-gray-50 text-brand-black" data-i18n="nav_about">About Us</button>
+      <button onclick="navigateTo('contact'); toggleMobileMenu();" class="block w-full text-start px-4 py-3 rounded-xl font-heading font-bold text-sm uppercase tracking-wider hover:bg-gray-50 text-brand-black" data-i18n="nav_contact">Contact</button>
+      <div class="pt-2 border-t border-gray-100 flex gap-2">
+        <button onclick="openQuoteDrawer(); toggleMobileMenu();" class="flex-1 py-3 rounded-xl bg-brand-black text-white font-heading font-bold text-xs uppercase tracking-wider text-center">
+          <i class="fa-solid fa-file-invoice me-1.5"></i> <span data-i18n="btn_quote">B2B Quote</span>
+        </button>
+        <button onclick="openAccountModal('orders'); toggleMobileMenu();" class="flex-1 py-3 rounded-xl border border-gray-300 text-brand-black font-heading font-bold text-xs uppercase tracking-wider text-center">
+          <i class="fa-solid fa-truck-fast me-1.5"></i> <span data-i18n="nav_track">Track Order</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN SPA VIEWPORT ==================== -->
+  <main id="appViewport" class="flex-1">
+    <!-- Content dynamically rendered by JS router -->
+  </main>
+
+  <!-- ==================== FLOATING COMPARISON BAR ==================== -->
+  <div id="compareBar" class="hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-30 w-[94%] max-w-3xl bg-brand-black text-white rounded-2xl shadow-2xl border border-white/15 px-5 py-3.5 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <span class="w-9 h-9 rounded-xl bg-brand-red flex items-center justify-center font-heading font-bold text-sm" id="compareCount">0</span>
+      <div>
+        <p class="font-heading font-bold text-xs uppercase tracking-wider" data-i18n="compare_title">Equipment Comparison</p>
+        <p id="compareNames" class="text-xs text-gray-300 truncate max-w-[220px] sm:max-w-sm">Select up to 3 machines</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 ms-auto">
+      <button onclick="clearCompare()" class="px-3 py-2 rounded-xl text-xs font-semibold text-gray-300 hover:text-white transition-colors" data-i18n="btn_clear">Clear</button>
+      <button onclick="openCompareModal()" class="px-4 py-2 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-xs uppercase tracking-wider transition-all" data-i18n="btn_compare_now">Compare Now</button>
+    </div>
+  </div>
+
+  <!-- ==================== WHATSAPP FLOATING BUTTON ==================== -->
+  <a href="https://wa.me/212522000000?text=Bonjour%20PULSEN%20FIT%2C%20je%20souhaite%20obtenir%20des%20informations%20sur%20vos%20%C3%A9quipements." target="_blank" rel="noopener noreferrer" aria-label="Contact PULSEN FIT on WhatsApp" class="fixed bottom-5 end-5 z-30 w-13 h-13 p-3.5 rounded-full bg-[#25D366] text-white shadow-xl hover:scale-110 transition-transform flex items-center justify-center group">
+    <i class="fa-brands fa-whatsapp text-2xl"></i>
+    <span class="hidden md:block absolute end-16 bg-brand-black text-white text-xs font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">
+      WhatsApp Direct — Casablanca & Export
+    </span>
+  </a>
+
+  <!-- ==================== FOOTER (DARK REVERSED VARIANT) ==================== -->
+  <footer class="bg-brand-black text-white pt-16 pb-10 border-t border-white/10 mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+        <!-- Brand Column (Reversed Horizontal Logo) -->
+        <div class="space-y-5">
+          <div class="flex items-center gap-3">
+            <!-- Reversed Emblem on Dark Background -->
+            <svg class="w-11 h-11 shrink-0" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="56" fill="#171717" stroke="#FFFFFF" stroke-width="5" />
+              <circle cx="60" cy="60" r="46.5" fill="#E51B23" />
+              <path d="M35 34 H71 C84.5 34 93 42.2 93 54 C93 65.8 84.5 74 71 74 H54.5 C49.5 74 46.5 76.8 44.8 81.8 L37.2 103.5 C32.5 101.5 28.2 98.8 24.5 95.5 L33.5 71.5 C36.8 62.8 43.2 59.5 53 59.5 H69.5 C75.2 59.5 78.8 56.8 78.8 53.5 C78.8 50.2 75.2 47.8 69.5 47.8 H44.5 C38.5 47.8 35 43.5 35 34 Z" fill="#FFFFFF" />
+            </svg>
+            <div>
+              <div class="font-heading font-black text-2xl tracking-tight leading-none flex items-center gap-1.5">
+                <span class="text-white">PULSEN</span>
+                <span class="text-brand-red">FIT</span>
+              </div>
+              <p class="text-xs text-gray-400 mt-1 italic">« Energy that endures. »</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 leading-relaxed" data-i18n="footer_desc">
+            Independent international fitness equipment brand. Precision-engineered cardio machines for home athletes, retail distributors (GMS/GSS), and commercial fitness facilities across Morocco and global markets.
+          </p>
+          <div class="flex items-center gap-3 pt-1">
+            <a href="#contact" onclick="navigateTo('contact'); return false;" class="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition-colors" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#contact" onclick="navigateTo('contact'); return false;" class="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition-colors" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#contact" onclick="navigateTo('contact'); return false;" class="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition-colors" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://wa.me/212522000000" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#25D366] flex items-center justify-center transition-colors" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Equipment Categories -->
+        <div>
+          <h4 class="font-heading font-bold text-sm uppercase tracking-wider text-white mb-4" data-i18n="footer_cat">Equipment Ranges</h4>
+          <ul class="space-y-2.5 text-sm text-gray-400">
+            <li><button onclick="navigateTo('products', {category: 'Exercise Bikes'})" class="hover:text-brand-red transition-colors" data-i18n="cat_bikes">Electromagnetic Exercise Bikes</button></li>
+            <li><button onclick="navigateTo('products', {category: 'Rowing Machines'})" class="hover:text-brand-red transition-colors" data-i18n="cat_rowers">Motorized Folding Rowers</button></li>
+            <li><button onclick="navigateTo('products', {category: 'Treadmills'})" class="hover:text-brand-red transition-colors" data-i18n="cat_treadmills">Commercial Motorized Treadmills</button></li>
+            <li><button onclick="navigateTo('products', {category: 'Elliptical Trainers'})" class="hover:text-brand-red transition-colors" data-i18n="cat_ellipticals">Pro Oscillation Ellipticals</button></li>
+          </ul>
+        </div>
+
+        <!-- Hybrid B2C & B2B Links -->
+        <div>
+          <h4 class="font-heading font-bold text-sm uppercase tracking-wider text-white mb-4" data-i18n="footer_links">Solutions & Portal</h4>
+          <ul class="space-y-2.5 text-sm text-gray-400">
+            <li><button onclick="navigateTo('b2b')" class="hover:text-brand-red transition-colors" data-i18n="nav_b2b">Fitness Solutions for Professionals</button></li>
+            <li><button onclick="openQuoteDrawer()" class="hover:text-brand-red transition-colors" data-i18n="btn_bulk_quote">Request a Bulk Quotation</button></li>
+            <li><button onclick="openAccountModal('orders')" class="hover:text-brand-red transition-colors" data-i18n="nav_track">Order Tracking & Account</button></li>
+            <li><button onclick="navigateTo('about')" class="hover:text-brand-red transition-colors" data-i18n="nav_about">Brand Engineering & Vision</button></li>
+          </ul>
+        </div>
+
+        <!-- Contact & Hub Info -->
+        <div>
+          <h4 class="font-heading font-bold text-sm uppercase tracking-wider text-white mb-4" data-i18n="footer_contact">Headquarters & Export</h4>
+          <ul class="space-y-3 text-sm text-gray-400">
+            <li class="flex items-start gap-2.5">
+              <i class="fa-solid fa-location-dot text-brand-red mt-1"></i>
+              <span>Zone Industrielle Sidi Maarouf, Casablanca, Morocco</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-phone text-brand-red"></i>
+              <span dir="ltr">+212 5 22 00 00 00</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-envelope text-brand-red"></i>
+              <span>contact@pulsenfit.com</span>
+            </li>
+            <li class="pt-1">
+              <span class="inline-block px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-gray-300">
+                COD Morocco &bull; International Freight
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+        <p>&copy; 2026 PULSEN FIT. All rights reserved.</p>
+        <p class="text-center sm:text-end" data-i18n="footer_disclaimer">
+          Indicative catalog specifications and sample pricing shown for commercial & retail demonstration. Standard manufacturer terms apply upon order confirmation.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== MODALS & DRAWERS ==================== -->
+
+  <!-- 1. PRODUCT DETAILS MODAL -->
+  <div id="productDetailModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="productDetailContent" class="bg-white rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl border border-gray-200 relative my-8">
+      <!-- Populated dynamically -->
+    </div>
+  </div>
+
+  <!-- 2. SLIDE-OUT SHOPPING CART DRAWER -->
+  <div id="cartDrawerBackdrop" onclick="closeCartDrawer()" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs backdrop-fade"></div>
+  <aside id="cartDrawer" class="fixed top-0 end-0 z-50 h-full w-full max-w-md bg-white shadow-2xl transform translate-x-full rtl:-translate-x-full drawer-slide flex flex-col">
+    <div class="p-6 border-b border-gray-200 flex items-center justify-between bg-brand-black text-white">
+      <div class="flex items-center gap-2.5">
+        <i class="fa-solid fa-bag-shopping text-brand-red text-lg"></i>
+        <h3 class="font-heading font-bold text-base uppercase tracking-wider" data-i18n="cart_title">Your Equipment Cart</h3>
+      </div>
+      <button onclick="closeCartDrawer()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition-colors">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-6 space-y-4">
+      <!-- Cart items rendered dynamically -->
+    </div>
+
+    <div class="p-6 border-t border-gray-200 bg-brand-light space-y-4">
+      <!-- Shipping Destination Selector -->
+      <div class="flex items-center justify-between text-xs">
+        <label for="shippingZone" class="font-semibold text-brand-grey uppercase tracking-wider" data-i18n="cart_shipping_zone">Delivery Region:</label>
+        <select id="shippingZone" onchange="renderCart()" class="bg-white border border-gray-300 rounded-lg px-2.5 py-1.5 font-semibold text-brand-black focus:outline-none focus:border-brand-red">
+          <option value="morocco">Morocco (Standard Delivery)</option>
+          <option value="international">International Air/Sea Freight</option>
+        </select>
+      </div>
+
+      <div class="space-y-1.5 text-sm">
+        <div class="flex justify-between text-brand-grey">
+          <span data-i18n="cart_subtotal">Subtotal</span>
+          <span id="cartSubtotal" class="font-semibold text-brand-black">0 €</span>
+        </div>
+        <div class="flex justify-between text-brand-grey">
+          <span data-i18n="cart_shipping">Estimated Logistics</span>
+          <span id="cartShipping" class="font-semibold text-brand-black">0 €</span>
+        </div>
+        <div class="flex justify-between text-base font-heading font-extrabold pt-2 border-t border-gray-200">
+          <span data-i18n="cart_total">Total (Indicative)</span>
+          <span id="cartTotal" class="text-brand-red">0 €</span>
+        </div>
+      </div>
+
+      <button id="checkoutTriggerBtn" onclick="openCheckoutModal()" class="w-full py-3.5 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-sm uppercase tracking-wider shadow-red-glow transition-all disabled:opacity-40 disabled:cursor-not-allowed" data-i18n="btn_checkout">
+        Proceed to Checkout
+      </button>
+    </div>
+  </aside>
+
+  <!-- 3. B2B / CUSTOM QUOTATION DRAWER -->
+  <div id="quoteDrawerBackdrop" onclick="closeQuoteDrawer()" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs"></div>
+  <aside id="quoteDrawer" class="fixed top-0 end-0 z-50 h-full w-full max-w-lg bg-white shadow-2xl transform translate-x-full rtl:-translate-x-full drawer-slide flex flex-col">
+    <div class="p-6 border-b border-gray-200 flex items-center justify-between bg-brand-black text-white">
+      <div class="flex items-center gap-2.5">
+        <i class="fa-solid fa-file-signature text-brand-red text-lg"></i>
+        <div>
+          <h3 class="font-heading font-bold text-base uppercase tracking-wider" data-i18n="quote_drawer_title">B2B & Custom Quotation</h3>
+          <p class="text-[11px] text-gray-400">Gyms &bull; Hotels &bull; Corporate &bull; GMS/GSS Distributors</p>
+        </div>
+      </div>
+      <button onclick="closeQuoteDrawer()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition-colors">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-6 space-y-5">
+      <div id="quoteItemsList" class="space-y-3">
+        <!-- Quote list items -->
+      </div>
+
+      <form id="quoteForm" onsubmit="submitQuoteRequest(event)" class="space-y-4 pt-4 border-t border-gray-200">
+        <h4 class="font-heading font-bold text-xs uppercase tracking-wider text-brand-black" data-i18n="quote_org_details">Organization Details</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Company / Facility Name *</label>
+            <input type="text" id="quoteCompany" required placeholder="e.g., Atlas Fitness Club" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Client Segment *</label>
+            <select id="quoteSegment" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red bg-white">
+              <option value="Gym / Fitness Club">Gym / Fitness Club</option>
+              <option value="Hotel / Resort">Hotel / Resort</option>
+              <option value="Corporate Wellness">Corporate Wellness</option>
+              <option value="GMS / GSS Retail Distributor">GMS / GSS Retail Distributor</option>
+              <option value="Sports Center">Sports Center</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Contact Name *</label>
+            <input type="text" id="quoteContact" required placeholder="Full Name" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Business Email *</label>
+            <input type="email" id="quoteEmail" required placeholder="pro@company.com" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Country / City & Project Notes</label>
+          <textarea id="quoteNotes" rows="2" placeholder="Casablanca / Paris — Target delivery timeline, installation needs..." class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red"></textarea>
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-xs uppercase tracking-wider shadow-red-glow transition-all" data-i18n="btn_submit_quote">
+          Generate Formal Quote Request
+        </button>
+      </form>
+    </div>
+  </aside>
+
+  <!-- 4. CHECKOUT MODAL -->
+  <div id="checkoutModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-gray-200 my-8">
+      <div class="px-6 py-5 bg-brand-black text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-brand-red"></span>
+          <h3 class="font-heading font-bold text-base uppercase tracking-wider" data-i18n="checkout_title">Secure Order Checkout</h3>
+        </div>
+        <button onclick="closeCheckoutModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition-colors">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div id="checkoutBody" class="p-6 sm:p-8">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. PRODUCT COMPARISON MODAL -->
+  <div id="compareModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-5xl w-full overflow-hidden shadow-2xl border border-gray-200 my-8">
+      <div class="px-6 py-5 bg-brand-black text-white flex items-center justify-between">
+        <h3 class="font-heading font-bold text-base uppercase tracking-wider" data-i18n="compare_title">Side-by-Side Technical Comparison</h3>
+        <button onclick="closeCompareModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition-colors">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="compareTableContainer" class="p-6 overflow-x-auto">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. CUSTOMER PORTAL (WISHLIST, QUOTES & ORDER TRACKING) MODAL -->
+  <div id="accountModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl border border-gray-200 my-8">
+      <div class="px-6 py-5 bg-brand-black text-white flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-user-shield text-brand-red text-lg"></i>
+          <h3 class="font-heading font-bold text-base uppercase tracking-wider" data-i18n="portal_title">PULSEN FIT Client & B2B Portal</h3>
+        </div>
+        <button onclick="closeAccountModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition-colors">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Portal Tabs -->
+      <div class="flex border-b border-gray-200 bg-brand-light px-6 pt-3 gap-4">
+        <button onclick="switchPortalTab('orders')" id="tab-orders" class="portal-tab pb-3 text-xs font-heading font-bold uppercase tracking-wider border-b-2 border-brand-red text-brand-red" data-i18n="tab_orders">Order Tracking</button>
+        <button onclick="switchPortalTab('wishlist')" id="tab-wishlist" class="portal-tab pb-3 text-xs font-heading font-bold uppercase tracking-wider border-b-2 border-transparent text-brand-grey hover:text-brand-black" data-i18n="tab_wishlist">Saved Wishlist</button>
+        <button onclick="switchPortalTab('quotes')" id="tab-quotes" class="portal-tab pb-3 text-xs font-heading font-bold uppercase tracking-wider border-b-2 border-transparent text-brand-grey hover:text-brand-black" data-i18n="tab_quotes">Submitted B2B Quotes</button>
+      </div>
+
+      <div id="portalBody" class="p-6 max-h-[65vh] overflow-y-auto">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastContainer" class="fixed top-24 end-5 z-50 space-y-2 pointer-events-none"></div>
+
+  <!-- ==================== APPLICATION LOGIC & STATE ==================== -->
+  <script>
+    // 1. MULTI-CURRENCY CONFIGURATION (Base prices stored in EUR)
+    const CURRENCIES = {
+      EUR: { symbol: '€', rate: 1, position: 'after' },
+      MAD: { symbol: 'MAD', rate: 10.8, position: 'after' },
+      USD: { symbol: '$', rate: 1.09, position: 'before' }
+    };
+
+    // 2. TRANSLATION DICTIONARY (FR, EN, AR with RTL support)
+    const TRANSLATIONS = {
+      en: {
+        top_slogan: "Energy that endures.",
+        top_sub: "PULSEN FIT — Morocco & International Logistics",
+        nav_home: "Home",
+        nav_equipment: "Our Equipment",
+        nav_b2b: "Business Solutions",
+        nav_about: "About Us",
+        nav_contact: "Contact",
+        nav_track: "Track Order",
+        btn_quote: "Quote",
+        btn_bulk_quote: "Request a Bulk Quotation",
+        hero_badge: "NEW GENERATION CARDIO ENGINEERING",
+        hero_title: "PUSH YOUR LIMITS. FEEL THE ENERGY.",
+        hero_subtitle: "Discover premium fitness equipment designed for performance, comfort and endurance.",
+        hero_cta_primary: "Explore Equipment",
+        hero_cta_secondary: "Discover Our Brand",
+        sec_featured: "Featured Equipment",
+        sec_featured_sub: "Engineered for both dedicated home athletes and high-traffic commercial fitness clubs.",
+        sec_categories: "Product Categories",
+        cat_treadmills: "Treadmills",
+        cat_bikes: "Exercise Bikes",
+        cat_rowers: "Rowing Machines",
+        cat_ellipticals: "Elliptical Trainers",
+        sec_why: "Why Choose PULSEN FIT",
+        sec_story: "Our Brand Story",
+        b2b_banner_title: "FITNESS SOLUTIONS FOR PROFESSIONALS",
+        b2b_banner_sub: "Tailored commercial cardio fleets for Gyms, Hotels, Corporate Wellness Centers, and Retail Distributors.",
+        btn_view_details: "View Details",
+        btn_add_cart: "Add to Cart",
+        btn_req_quote: "Request Quote",
+        cart_title: "Your Equipment Cart",
+        cart_shipping_zone: "Delivery Region:",
+        cart_subtotal: "Subtotal",
+        cart_shipping: "Estimated Logistics",
+        cart_total: "Total (Indicative)",
+        btn_checkout: "Proceed to Checkout",
+        quote_drawer_title: "B2B & Custom Quotation",
+        quote_org_details: "Organization Details",
+        btn_submit_quote: "Generate Formal Quote Request",
+        checkout_title: "Secure Order Checkout",
+        compare_title: "Equipment Comparison",
+        btn_clear: "Clear",
+        btn_compare_now: "Compare Now",
+        portal_title: "PULSEN FIT Client & B2B Portal",
+        tab_orders: "Order Tracking",
+        tab_wishlist: "Saved Wishlist",
+        tab_quotes: "Submitted B2B Quotes",
+        footer_desc: "Independent international fitness equipment brand. Precision-engineered cardio machines for home athletes, retail distributors (GMS/GSS), and commercial fitness facilities across Morocco and global markets.",
+        footer_cat: "Equipment Ranges",
+        footer_links: "Solutions & Portal",
+        footer_contact: "Headquarters & Export",
+        footer_disclaimer: "Indicative catalog specifications and sample pricing shown for commercial & retail demonstration. Standard manufacturer terms apply upon order confirmation.",
+        indicative_label: "Sample / Indicative Price"
+      },
+      fr: {
+        top_slogan: "Energy that endures.",
+        top_sub: "PULSEN FIT — Logistique Maroc & International",
+        nav_home: "Accueil",
+        nav_equipment: "Nos Équipements",
+        nav_b2b: "Solutions Pro (B2B)",
+        nav_about: "À Propos",
+        nav_contact: "Contact",
+        nav_track: "Suivi Commande",
+        btn_quote: "Devis",
+        btn_bulk_quote: "Demander un Devis Volume",
+        hero_badge: "INGÉNIERIE CARDIO NOUVELLE GÉNÉRATION",
+        hero_title: "REPOUSSEZ VOS LIMITES. RESSENTEZ L'ÉNERGIE.",
+        hero_subtitle: "Découvrez des équipements de fitness haut de gamme conçus pour la performance, le confort et l'endurance.",
+        hero_cta_primary: "Explorer les Équipements",
+        hero_cta_secondary: "Découvrir la Marque",
+        sec_featured: "Équipements Phares",
+        sec_featured_sub: "Conçus pour les particuliers exigeants, la distribution spécialisée et les clubs de fitness professionnels.",
+        sec_categories: "Catégories de Produits",
+        cat_treadmills: "Tapis de Course",
+        cat_bikes: "Vélos d'Appartement",
+        cat_rowers: "Rameurs",
+        cat_ellipticals: "Vélos Elliptiques",
+        sec_why: "Pourquoi Choisir PULSEN FIT",
+        sec_story: "Notre Histoire",
+        b2b_banner_title: "SOLUTIONS FITNESS POUR PROFESSIONNELS",
+        b2b_banner_sub: "Parcs cardio sur mesure pour Salles de Sport, Hôtels, Entreprises, Centres Sportifs et Distributeurs GMS/GSS.",
+        btn_view_details: "Détails",
+        btn_add_cart: "Ajouter au Panier",
+        btn_req_quote: "Devis B2B",
+        cart_title: "Votre Panier Équipement",
+        cart_shipping_zone: "Zone de Livraison :",
+        cart_subtotal: "Sous-total",
+        cart_shipping: "Logistique Estimée",
+        cart_total: "Total (Indicatif)",
+        btn_checkout: "Passer la Commande",
+        quote_drawer_title: "Demande de Devis B2B / Volume",
+        quote_org_details: "Informations Organisation",
+        btn_submit_quote: "Générer la Demande de Devis",
+        checkout_title: "Validation de Commande",
+        compare_title: "Comparateur Technique",
+        btn_clear: "Effacer",
+        btn_compare_now: "Comparer",
+        portal_title: "Espace Client & Portefeuille B2B",
+        tab_orders: "Suivi des Commandes",
+        tab_wishlist: "Liste d'Envies",
+        tab_quotes: "Devis B2B Soumis",
+        footer_desc: "Marque internationale indépendante d'équipements de fitness. Machines cardio de précision pour particuliers, distributeurs (GMS/GSS) et salles de sport au Maroc et à l'international.",
+        footer_cat: "Gammes d'Équipements",
+        footer_links: "Solutions & Portail",
+        footer_contact: "Siège & Export",
+        footer_disclaimer: "Caractéristiques techniques et tarifs indicatifs présentés à titre d'échantillon catalogue. Conditions générales fabricant applicables sur devis validé.",
+        indicative_label: "Tarif Indicatif Catalogue"
+      },
+      ar: {
+        top_slogan: "Energy that endures. — طاقة تدوم طويلاً",
+        top_sub: "PULSEN FIT — خدمات لوجستية في المغرب والعالم",
+        nav_home: "الرئيسية",
+        nav_equipment: "معداتنا",
+        nav_b2b: "حلول المحترفين",
+        nav_about: "من نحن",
+        nav_contact: "اتصل بنا",
+        nav_track: "تتبع الطلب",
+        btn_quote: "طلب عرض سعر",
+        btn_bulk_quote: "طلب عرض سعر بالجملة",
+        hero_badge: "هندسة رياضية متطورة",
+        hero_title: "تجاوز حدودك. اشعر بالطاقة.",
+        hero_subtitle: "اكتشف معدات اللياقة البدنية الفاخرة المصممة للأداء العالي والراحة وقوة التحمل.",
+        hero_cta_primary: "استكشف المعدات",
+        hero_cta_secondary: "اكتشف علامتنا",
+        sec_featured: "المعدات المميزة",
+        sec_featured_sub: "مصممة للرياضيين في المنزل والأندية الرياضية الاحترافية.",
+        sec_categories: "فئات المنتجات",
+        cat_treadmills: "أجهزة المشي",
+        cat_bikes: "الدراجات الثابتة",
+        cat_rowers: "أجهزة التجديف",
+        cat_ellipticals: "الدراجات البيضاوية",
+        sec_why: "لماذا تختار PULSEN FIT",
+        sec_story: "قصة علامتنا التجارية",
+        b2b_banner_title: "حلول اللياقة البدنية للمحترفين",
+        b2b_banner_sub: "تجهيز متكامل للنوادي الرياضية، الفنادق، الشركات، والموزعين المعتمدين.",
+        btn_view_details: "التفاصيل",
+        btn_add_cart: "أضف إلى السلة",
+        btn_req_quote: "طلب تسعيرة",
+        cart_title: "سلة المعدات",
+        cart_shipping_zone: "منطقة التوصيل:",
+        cart_subtotal: "المجموع الفرعي",
+        cart_shipping: "تكلفة الشحن التقديرية",
+        cart_total: "المجموع الإجمالي (تقديري)",
+        btn_checkout: "إتمام الطلب",
+        quote_drawer_title: "طلب عرض أسعار للشركات",
+        quote_org_details: "بيانات المؤسسة",
+        btn_submit_quote: "إرسال طلب التسعيرة",
+        checkout_title: "تأكيد الطلب والدفع",
+        compare_title: "مقارنة المعدات",
+        btn_clear: "مسح",
+        btn_compare_now: "قارن الآن",
+        portal_title: "بوابة العملاء والشركات PULSEN FIT",
+        tab_orders: "تتبع الطلبات",
+        tab_wishlist: "المفضلة",
+        tab_quotes: "عروض الأسعار المقدمة",
+        footer_desc: "علامة تجارية دولية مستقلة لمعدات اللياقة البدنية. أجهزة كارديو عالية الدقة للمنازل والموزعين والنوادي الرياضية في المغرب والأسواق العالمية.",
+        footer_cat: "فئات المعدات",
+        footer_links: "الحلول والبوابة",
+        footer_contact: "المقر الرئيسي والتصدير",
+        footer_disclaimer: "الأسعار والمواصفات المعروضة هي نماذج استرشادية. تطبق شروط الشركة المصنعة عند تأكيد الطلب.",
+        indicative_label: "سعر استرشادي"
+      }
+    };
+
+    // 3. PRODUCT CATALOG DATA (Aligned with OlympiCA product families + realistic photography)
+    const PRODUCTS = [
+      {
+        id: 'pf-bike-x1',
+        sku: 'PF-BK-101',
+        name: 'PULSEN Drive X1',
+        subtitle: 'Electromagnetic Ergometer Exercise Bike',
+        category: 'Exercise Bikes',
+        segment: 'Home / B2C',
+        segmentCode: 'B2C',
+        priceEUR: 349,
+        availability: 'In Stock',
+        featured: true,
+        images: [
+          'https://images.unsplash.com/photo-1591741535018-d042766c62eb?auto=format&fit=crop&w=900&q=80',
+          'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=80'
+        ],
+        description: 'Engineered for quiet, high-precision home cardio training. Features a self-powered or mains-assisted electromagnetic resistance system with real-time wattage ergometer feedback and compact footprint.',
+        benefits: [
+          'Whisper-quiet electromagnetic resistance with 24 digital levels',
+          'Built-in ergometer power output tracking (Watts & RPM)',
+          'Quick-adjust ergonomic saddle and multi-grip handlebar',
+          'Tool-light home assembly ideal for retail & residential delivery'
+        ],
+        specs: {
+          'Resistance System': 'Electromagnetic (Auto-generated / AC)',
+          'Flywheel Inertia': '10 kg Balanced Perimeter',
+          'Programs': '16 Preset + Watt Control',
+          'Max User Weight': '135 kg (Sample Spec)',
+          'Dimensions (L×W×H)': '104 × 54 × 138 cm'
+        },
+        deliveryInfo: 'Ships boxed for easy residential assembly. Standard manufacturer terms apply upon order confirmation.'
+      },
+      {
+        id: 'pf-row-fold',
+        sku: 'PF-RW-204',
+        name: 'PULSEN Row Pro-Fold',
+        subtitle: 'Motorized Central-Pull Folding Rowing Machine',
+        category: 'Rowing Machines',
+        segment: 'Home / B2C',
+        segmentCode: 'B2C',
+        priceEUR: 590,
+        availability: 'In Stock',
+        featured: true,
+        images: [
+          'https://images.unsplash.com/photo-1519505907962-0a6cb0167c73?auto=format&fit=crop&w=900&q=80',
+          'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80'
+        ],
+        description: 'A full-body motorized central-pull rower combining smooth magnetic-motorized tension with a space-saving vertical folding rail. Includes wireless telemetry chest strap compatibility for heart-rate guided sessions.',
+        benefits: [
+          'Central-pull drive mechanism for symmetrical upper & lower body stroke',
+          'Vertical quick-fold aluminum monorail saves 60% floor space',
+          'Wireless heart-rate receiver with chest strap bundle option',
+          'High-contrast backlit LCD performance console'
+        ],
+        specs: {
+          'Drive & Resistance': 'Motorized Central-Pull Magnetic',
+          'Rail Construction': 'Anodized Extruded Aluminum (Foldable)',
+          'Heart Rate': '5 kHz Wireless Chest Strap Compatible',
+          'Max User Weight': '140 kg (Sample Spec)',
+          'Dimensions (Open)': '212 × 52 × 86 cm'
+        },
+        deliveryInfo: 'Pre-assembled main drive unit; unfolds in under 3 minutes. Standard manufacturer terms apply.'
+      },
+      {
+        id: 'pf-tread-t900',
+        sku: 'PF-TR-900',
+        name: 'PULSEN Run Elite T900',
+        subtitle: 'Commercial Motorized Treadmill',
+        category: 'Treadmills',
+        segment: 'Commercial Pro / B2B',
+        segmentCode: 'B2B',
+        priceEUR: 3450,
+        availability: 'In Stock',
+        featured: true,
+        images: [
+          'https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=900&q=80',
+          'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=900&q=80'
+        ],
+        description: 'Our flagship commercial-grade motorized treadmill built for continuous club operation. Features signature PULSEN FIT aerodynamic side uprights, shock-absorbing multi-ply running deck, and programmable incline/speed intervals.',
+        benefits: [
+          'High-torque AC commercial drive motor built for multi-hour daily duty',
+          'Aerodynamic ergonomic handrail architecture with integrated pulse sensors',
+          'Electronic incline up to 15% and speed precision up to 22 km/h',
+          'Low-impact elastomer deck suspension reduces joint stress'
+        ],
+        specs: {
+          'Motor System': '4.5 HP Continuous AC Commercial Drive',
+          'Speed & Incline': '0.8 – 22 km/h | 0% – 15% Motorized',
+          'Running Surface': '156 × 56 cm Multi-Ply Orthobelt',
+          'Max User Weight': '180 kg (Sample Spec)',
+          'Dimensions (L×W×H)': '215 × 91 × 158 cm'
+        },
+        deliveryInfo: 'Delivered via specialized freight with optional on-site technician commissioning for clubs & hotels.'
+      },
+      {
+        id: 'pf-ellip-e700',
+        sku: 'PF-EL-700',
+        name: 'PULSEN Glide E700',
+        subtitle: 'Commercial Oscillation Elliptical Trainer',
+        category: 'Elliptical Trainers',
+        segment: 'Commercial Pro / B2B',
+        segmentCode: 'B2B',
+        priceEUR: 2490,
+        availability: 'In Stock',
+        featured: true,
+        images: [
+          'https://images.unsplash.com/photo-1596357395217-80de13130e92?auto=format&fit=crop&w=900&q=80',
+          'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=900&q=80'
+        ],
+        description: 'Sophisticated rear-drive oscillation elliptical engineered for commercial fitness clubs and hotel gyms. Delivers a natural, zero-impact elliptical stride path synchronized with dual-action upper-body handlebars.',
+        benefits: [
+          'Precision mechanical oscillation linkage for natural 51 cm stride path',
+          'Self-generating hybrid brake system — flexible placement without floor cables',
+          'Oversized cushioned pedals with narrow Q-factor ergonomic spacing',
+          'Heavy-gauge powder-coated steel frame in Matte Black & Energetic Red'
+        ],
+        specs: {
+          'Resistance System': 'Self-Generating Hybrid Eddy-Current',
+          'Stride Length': '51 cm (20 in) Ergonomic Path',
+          'Resistance Levels': '32 Electronic Levels',
+          'Max User Weight': '175 kg (Sample Spec)',
+          'Dimensions (L×W×H)': '208 × 74 × 172 cm'
+        },
+        deliveryInfo: 'Commercial pallet delivery & B2B fleet volume pricing available upon quotation request.'
+      },
+      {
+        id: 'pf-tread-s500',
+        sku: 'PF-TR-500',
+        name: 'PULSEN Sprint S500',
+        subtitle: 'Compact Studio & Home Motorized Treadmill',
+        category: 'Treadmills',
+        segment: 'Home / B2C',
+        segmentCode: 'B2C',
+        priceEUR: 1190,
+        availability: 'In Stock',
+        featured: false,
+        images: [
+          'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=900&q=80'
+        ],
+        description: 'Brings studio-grade running dynamics into residential spaces. Hydraulic soft-drop folding mechanism combined with responsive speed presets and Bluetooth app telemetry.',
+        benefits: [
+          'Hydraulic Soft-Drop folding deck for effortless storage',
+          '18 km/h top speed with 12-level motorized incline',
+          'Integrated tablet holder & Bluetooth FTMS connectivity',
+          'Reinforced steel uprights inspired by PULSEN FIT signature geometry'
+        ],
+        specs: {
+          'Motor System': '3.0 HP Peak DC Quiet-Drive',
+          'Speed & Incline': '1.0 – 18 km/h | 0% – 12% Auto',
+          'Running Surface': '140 × 50 cm Cushioned Deck',
+          'Max User Weight': '135 kg (Sample Spec)',
+          'Dimensions (L×W×H)': '178 × 82 × 142 cm'
+        },
+        deliveryInfo: 'Home delivery across Morocco & international shipping hubs. Standard manufacturer terms apply.'
+      },
+      {
+        id: 'pf-bike-pro9',
+        sku: 'PF-BK-909',
+        name: 'PULSEN Spin Pro R9',
+        subtitle: 'Indoor Studio Cycling Bike',
+        category: 'Exercise Bikes',
+        segment: 'Commercial Pro / B2B',
+        segmentCode: 'B2B',
+        priceEUR: 1380,
+        availability: 'Made to Order',
+        featured: false,
+        images: [
+          'https://images.unsplash.com/photo-1591741535018-d042766c62eb?auto=format&fit=crop&w=900&q=80'
+        ],
+        description: 'Built for high-intensity group cycling studios. Heavy perimeter-weighted flywheel with Kevlar belt transmission and micro-adjustable fore/aft seat and handlebar sliders.',
+        benefits: [
+          'Maintenance-free Kevlar belt drive for silent standing sprints',
+          'Magnetic eddy-current resistance with emergency push-brake',
+          'Dual-sided SPD & toe-cage pedals included',
+          'Sweat-guarded commercial steel chassis'
+        ],
+        specs: {
+          'Resistance System': 'Precision Magnetic Caliper',
+          'Flywheel Weight': '20 kg Perimeter Weighted',
+          'Drivetrain': 'Kevlar Poly-V Belt',
+          'Max User Weight': '160 kg (Sample Spec)',
+          'Dimensions (L×W×H)': '124 × 56 × 118 cm'
+        },
+        deliveryInfo: 'Available individually or in studio packs of 10–30 bikes via B2B Quotation.'
+      }
+    ];
+
+    // 4. APPLICATION STATE
+    let state = {
+      currentPage: 'home',
+      language: 'en',
+      currency: 'EUR',
+      cart: [],
+      wishlist: ['pf-tread-t900'],
+      compareList: [],
+      quoteItems: [
+        { productId: 'pf-tread-t900', qty: 4 },
+        { productId: 'pf-ellip-e700', qty: 4 }
+      ],
+      submittedQuotes: [
+        {
+          ref: 'QT-2026-8841',
+          date: '2026-11-15',
+          company: 'Atlas Performance Club Casablanca',
+          segment: 'Gym / Fitness Club',
+          itemsSummary: '6× PULSEN Run Elite T900, 4× PULSEN Glide E700',
+          status: 'Proposal Sent'
+        }
+      ],
+      orders: [
+        {
+          id: 'PF-2026-4910',
+          date: '2026-11-12',
+          customer: 'Karim Benali (Casablanca)',
+          items: '1× PULSEN Drive X1',
+          totalEUR: 379,
+          payment: 'Cash on Delivery (Morocco)',
+          status: 'In Transit — Casablanca Hub',
+          step: 3
+        }
+      ],
+      filters: {
+        search: '',
+        category: 'All',
+        segment: 'All',
+        maxPriceEUR: 4000,
+        sort: 'featured'
+      }
+    };
+
+    // 5. CURRENCY & FORMATTING HELPERS
+    function formatPrice(amountEUR) {
+      const cfg = CURRENCIES[state.currency];
+      const converted = Math.round(amountEUR * cfg.rate);
+      const formatted = converted.toLocaleString('en-US');
+      return cfg.position === 'before' ? `${cfg.symbol}${formatted}` : `${formatted} ${cfg.symbol}`;
+    }
+
+    function t(key) {
+      return TRANSLATIONS[state.language][key] || TRANSLATIONS['en'][key] || key;
+    }
+
+    function setCurrency(curr) {
+      state.currency = curr;
+      document.getElementById('currencySelect').value = curr;
+      renderCurrentPage();
+      renderCart();
+      renderQuoteDrawer();
+      updateCompareBar();
+      showToast(`Currency switched to ${curr}`);
+    }
+
+    function setLanguage(lang) {
+      state.language = lang;
+      const htmlEl = document.documentElement;
+      htmlEl.lang = lang;
+      htmlEl.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+      // Update active pill styles
+      ['fr', 'en', 'ar'].forEach(code => {
+        const btn = document.getElementById(`lang-${code}`);
+        if (code === lang) {
+          btn.classList.add('bg-brand-red', 'text-white');
+        } else {
+          btn.classList.remove('bg-brand-red', 'text-white');
+        }
+      });
+
+      // Translate static DOM elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (TRANSLATIONS[lang][key]) {
+          el.textContent = TRANSLATIONS[lang][key];
+        }
+      });
+
+      renderCurrentPage();
+      renderCart();
+      renderQuoteDrawer();
+    }
+
+    // 6. TOAST NOTIFICATIONS
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      const icon = type === 'success' ? 'fa-circle-check text-brand-red' : 'fa-circle-info text-brand-red';
+      toast.className = 'pointer-events-auto bg-brand-black text-white px-4 py-3 rounded-xl shadow-2xl border border-white/15 flex items-center gap-3 text-xs font-semibold animate-bounce';
+      toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i><span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.remove('animate-bounce');
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 2800);
+    }
+
+    // 7. ROUTER & NAVIGATION
+    function navigateTo(page, params = {}) {
+      state.currentPage = page;
+      if (params.category) {
+        state.filters.category = params.category;
+      }
+      if (params.segment) {
+        state.filters.segment = params.segment;
+      }
+
+      // Highlight active nav item
+      document.querySelectorAll('.nav-link').forEach(btn => {
+        if (btn.getAttribute('data-nav') === page) {
+          btn.classList.add('text-brand-red', 'border-b-2', 'border-brand-red');
+          btn.classList.remove('text-brand-black');
+        } else {
+          btn.classList.remove('text-brand-red', 'border-b-2', 'border-brand-red');
+          btn.classList.add('text-brand-black');
+        }
+      });
+
+      renderCurrentPage();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const icon = document.getElementById('mobileMenuIcon');
+      menu.classList.toggle('hidden');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-xmark');
+    }
+
+    function renderCurrentPage() {
+      const viewport = document.getElementById('appViewport');
+      switch (state.currentPage) {
+        case 'home':
+          viewport.innerHTML = renderHomePage();
+          break;
+        case 'products':
+          viewport.innerHTML = renderProductsPage();
+          break;
+        case 'b2b':
+          viewport.innerHTML = renderB2BPage();
+          break;
+        case 'about':
+          viewport.innerHTML = renderAboutPage();
+          break;
+        case 'contact':
+          viewport.innerHTML = renderContactPage();
+          break;
+        default:
+          viewport.innerHTML = renderHomePage();
+      }
+    }
+
+    // 8. SHARED PRODUCT CARD COMPONENT
+    function createProductCard(p) {
+      const isWished = state.wishlist.includes(p.id);
+      const isCompared = state.compareList.includes(p.id);
+      const badgeColor = p.segmentCode === 'B2B'
+        ? 'bg-brand-black text-white'
+        : 'bg-gray-100 text-brand-black border border-gray-300';
+
+      return `
+        <div class="group bg-white rounded-2xl border border-gray-200/90 overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col">
+          <!-- Image Header -->
+          <div class="relative aspect-[4/3] bg-gray-100 overflow-hidden">
+            <img src="${p.images[0]}" alt="${p.name}" loading="lazy" onerror="this.src='https://placehold.co/800x600/171717/FFFFFF?text=PULSEN+FIT'" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-60"></div>
+
+            <!-- Top Badges -->
+            <div class="absolute top-3 start-3 flex flex-wrap gap-1.5">
+              <span class="px-2.5 py-1 rounded-lg text-[10px] font-heading font-bold uppercase tracking-wider ${badgeColor}">
+                ${p.segment}
+              </span>
+              <span class="px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${p.availability === 'In Stock' ? 'bg-emerald-600 text-white' : 'bg-amber-500 text-white'}">
+                ${p.availability}
+              </span>
+            </div>
+
+            <!-- Wishlist Heart -->
+            <button onclick="toggleWishlist('${p.id}')" aria-label="Save to Wishlist" class="absolute top-3 end-3 w-9 h-9 rounded-full bg-white/95 hover:bg-white shadow-md flex items-center justify-center transition-transform hover:scale-110">
+              <i class="${isWished ? 'fa-solid text-brand-red' : 'fa-regular text-brand-black'} fa-heart text-sm"></i>
+            </button>
+
+            <!-- Compare Toggle -->
+            <label class="absolute bottom-3 start-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/75 backdrop-blur-xs text-white text-[11px] font-medium cursor-pointer hover:bg-brand-red transition-colors">
+              <input type="checkbox" ${isCompared ? 'checked' : ''} onchange="toggleCompare('${p.id}')" class="rounded text-brand-red focus:ring-0 cursor-pointer" />
+              <span>Compare</span>
+            </label>
+
+            <!-- SKU Tag -->
+            <span class="absolute bottom-3 end-3 text-[10px] font-mono text-white/90 bg-black/60 px-2 py-0.5 rounded">${p.sku}</span>
+          </div>
+
+          <!-- Card Body -->
+          <div class="p-5 flex-1 flex flex-col">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-brand-red mb-1">${p.category}</p>
+            <h3 class="font-heading font-extrabold text-lg text-brand-black group-hover:text-brand-red transition-colors cursor-pointer" onclick="openProductDetail('${p.id}')">${p.name}</h3>
+            <p class="text-xs text-brand-grey mt-0.5 line-clamp-1">${p.subtitle}</p>
+
+            <!-- Key Spec Pill Row -->
+            <div class="mt-3 pt-3 border-t border-gray-100 grid grid-cols-2 gap-2 text-[11px] text-gray-600">
+              <div class="truncate"><span class="font-semibold text-brand-black">Max:</span> ${p.specs['Max User Weight'].split(' ')[0]} kg</div>
+              <div class="truncate"><span class="font-semibold text-brand-black">Dim:</span> ${p.specs[Object.keys(p.specs)[4]].split(' ')[0]} cm</div>
+            </div>
+
+            <!-- Price & Actions -->
+            <div class="mt-auto pt-4">
+              <div class="flex items-baseline justify-between mb-3">
+                <div>
+                  <span class="block text-[10px] uppercase tracking-wider text-brand-grey">${t('indicative_label')}</span>
+                  <span class="font-heading font-black text-xl text-brand-black">${formatPrice(p.priceEUR)}</span>
+                </div>
+                <button onclick="openProductDetail('${p.id}')" class="text-xs font-heading font-bold uppercase tracking-wider text-brand-black hover:text-brand-red underline underline-offset-4 transition-colors">
+                  ${t('btn_view_details')}
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="addToCart('${p.id}')" class="py-2.5 px-3 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-[11px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-cart-plus"></i>
+                  <span>${t('btn_add_cart')}</span>
+                </button>
+                <button onclick="addToQuote('${p.id}')" class="py-2.5 px-3 rounded-xl border border-brand-black text-brand-black hover:bg-brand-black hover:text-white font-heading font-bold text-[11px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-file-invoice"></i>
+                  <span>${t('btn_req_quote')}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 9. PAGE 1: HOME PAGE RENDERER
+    function renderHomePage() {
+      const featuredProducts = PRODUCTS.filter(p => p.featured);
+      return `
+        <div class="page-view">
+          <!-- HERO SECTION (Full-Bleed Dark Athletic Studio) -->
+          <section class="relative bg-brand-black text-white overflow-hidden">
+            <div class="absolute inset-0">
+              <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1800&q=80" alt="PULSEN FIT Dark Studio" class="w-full h-full object-cover object-center opacity-35" />
+              <div class="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/85 to-brand-black/40"></div>
+            </div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-36">
+              <div class="max-w-2xl space-y-6">
+                <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-xs">
+                  <span class="w-2 h-2 rounded-full bg-brand-red"></span>
+                  <span class="font-heading font-bold text-[11px] uppercase tracking-[0.18em] text-white">${t('hero_badge')}</span>
+                </div>
+
+                <h1 class="font-heading font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.08] uppercase">
+                  ${t('hero_title')}
+                </h1>
+
+                <p class="text-base sm:text-lg text-gray-300 leading-relaxed max-w-xl">
+                  ${t('hero_subtitle')}
+                </p>
+
+                <div class="pt-2 flex flex-wrap items-center gap-4">
+                  <button onclick="navigateTo('products')" class="px-7 py-4 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-xs sm:text-sm uppercase tracking-wider shadow-red-glow transition-all flex items-center gap-2.5">
+                    <span>${t('hero_cta_primary')}</span>
+                    <i class="fa-solid fa-arrow-right rtl-flip"></i>
+                  </button>
+                  <button onclick="navigateTo('about')" class="px-7 py-4 rounded-xl border-2 border-white/80 hover:border-white hover:bg-white hover:text-brand-black text-white font-heading font-bold text-xs sm:text-sm uppercase tracking-wider transition-all">
+                    ${t('hero_cta_secondary')}
+                  </button>
+                </div>
+
+                <!-- Trust Metrics Bar -->
+                <div class="pt-8 grid grid-cols-3 gap-6 border-t border-white/15 max-w-lg">
+                  <div>
+                    <p class="font-heading font-black text-2xl sm:text-3xl text-brand-red">B2C & B2B</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Home & Commercial Clubs</p>
+                  </div>
+                  <div>
+                    <p class="font-heading font-black text-2xl sm:text-3xl text-white">4 RANGES</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Complete Cardio Systems</p>
+                  </div>
+                  <div>
+                    <p class="font-heading font-black text-2xl sm:text-3xl text-white">GLOBAL</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Precision Engineering</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- PRODUCT CATEGORIES SHOWCASE -->
+          <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+              <div>
+                <span class="text-xs font-heading font-bold uppercase tracking-[0.2em] text-brand-red">PULSEN FIT RANGES</span>
+                <h2 class="font-heading font-black text-2xl sm:text-4xl text-brand-black uppercase mt-1">${t('sec_categories')}</h2>
+              </div>
+              <button onclick="navigateTo('products', {category: 'All'})" class="text-xs font-heading font-bold uppercase tracking-wider text-brand-black hover:text-brand-red flex items-center gap-2 self-start sm:self-auto">
+                <span>View Complete Catalog</span>
+                <i class="fa-solid fa-arrow-right rtl-flip"></i>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              ${[
+                { key: 'Exercise Bikes', label: t('cat_bikes'), tag: 'Home & Studio', img: 'https://images.unsplash.com/photo-1591741535018-d042766c62eb?auto=format&fit=crop&w=700&q=80' },
+                { key: 'Rowing Machines', label: t('cat_rowers'), tag: 'Folding Central-Pull', img: 'https://images.unsplash.com/photo-1519505907962-0a6cb0167c73?auto=format&fit=crop&w=700&q=80' },
+                { key: 'Treadmills', label: t('cat_treadmills'), tag: 'Home & Club Pro', img: 'https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=700&q=80' },
+                { key: 'Elliptical Trainers', label: t('cat_ellipticals'), tag: 'Commercial Oscillation', img: 'https://images.unsplash.com/photo-1596357395217-80de13130e92?auto=format&fit=crop&w=700&q=80' }
+              ].map(cat => `
+                <div onclick="navigateTo('products', {category: '${cat.key}'})" class="group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-card hover:shadow-card-hover transition-all">
+                  <img src="${cat.img}" alt="${cat.label}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+                  <div class="absolute bottom-5 start-5 end-5 text-white">
+                    <span class="inline-block px-2.5 py-0.5 rounded bg-brand-red text-[10px] font-heading font-bold uppercase tracking-wider mb-2">${cat.tag}</span>
+                    <div class="flex items-center justify-between">
+                      <h3 class="font-heading font-extrabold text-lg uppercase">${cat.label}</h3>
+                      <span class="w-8 h-8 rounded-full bg-white/15 group-hover:bg-brand-red flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-arrow-right text-xs rtl-flip"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </section>
+
+          <!-- FEATURED EQUIPMENT GRID -->
+          <section class="bg-brand-light py-16 sm:py-24 border-y border-gray-200/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xs font-heading font-bold uppercase tracking-[0.2em] text-brand-red">HYBRID B2C & B2B LINEUP</span>
+                <h2 class="font-heading font-black text-2xl sm:text-4xl text-brand-black uppercase mt-1">${t('sec_featured')}</h2>
+                <p class="text-sm text-brand-grey mt-2">${t('sec_featured_sub')}</p>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                ${featuredProducts.map(p => createProductCard(p)).join('')}
+              </div>
+            </div>
+          </section>
+
+          <!-- WHY CHOOSE PULSEN FIT -->
+          <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+              <span class="text-xs font-heading font-bold uppercase tracking-[0.2em] text-brand-red">ENGINEERING PILLARS</span>
+              <h2 class="font-heading font-black text-2xl sm:text-4xl text-brand-black uppercase mt-1">${t('sec_why')}</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              ${[
+                { icon: 'fa-compass-drafting', title: 'Ergonomic Geometry', desc: 'Signature curved support uprights and biomechanical stride paths engineered to minimize joint strain.' },
+                { icon: 'fa-layer-group', title: 'Hybrid B2C & B2B Range', desc: 'From compact folding home rowers for retail to heavy-duty AC treadmills for commercial fitness clubs.' },
+                { icon: 'fa-microchip', title: 'Precision Telemetry', desc: 'Electromagnetic ergometer resistance, programmable incline profiles, and wireless heart-rate integration.' },
+                { icon: 'fa-truck-ramp-box', title: 'Morocco & Export Hub', desc: 'Direct Casablanca industrial distribution, COD residential delivery, and turnkey B2B club commissioning.' }
+              ].map(item => `
+                <div class="p-7 rounded-2xl bg-white border border-gray-200 hover:border-brand-red transition-all shadow-card group">
+                  <div class="w-12 h-12 rounded-xl bg-brand-black group-hover:bg-brand-red text-white flex items-center justify-center text-xl mb-5 transition-colors">
+                    <i class="fa-solid ${item.icon}"></i>
+                  </div>
+                  <h3 class="font-heading font-extrabold text-base uppercase text-brand-black mb-2">${item.title}</h3>
+                  <p class="text-sm text-brand-grey leading-relaxed">${item.desc}</p>
+                </div>
+              `).join('')}
+            </div>
+          </section>
+
+          <!-- OUR BRAND STORY PREVIEW -->
+          <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+            <div class="rounded-3xl bg-brand-light border border-gray-200 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+              <div class="p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-5">
+                <span class="text-xs font-heading font-bold uppercase tracking-[0.2em] text-brand-red">INTERNATIONAL FITNESS BRAND</span>
+                <h2 class="font-heading font-black text-2xl sm:text-4xl text-brand-black uppercase leading-tight">
+                  BUILT FOR ENDURANCE. DESIGNED FOR TODAY.
+                </h2>
+                <p class="text-sm sm:text-base text-gray-600 leading-relaxed">
+                  <strong>PULSEN FIT</strong> bridges the gap between accessible home fitness and commercial-grade athletic technology. Starting with precision electromagnetic exercise bikes and folding central-pull rowers, our engineering division expanded into high-end motorized treadmills and oscillation ellipticals for leading clubs and hotels.
+                </p>
+                <div class="pt-2">
+                  <button onclick="navigateTo('about')" class="px-6 py-3.5 rounded-xl bg-brand-black hover:bg-brand-red text-white font-heading font-bold text-xs uppercase tracking-wider transition-colors">
+                    Explore Our Story & Vision
+                  </button>
+                </div>
+              </div>
+              <div class="relative min-h-[320px]">
+                <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=1000&q=80" alt="PULSEN FIT Engineering" class="w-full h-full object-cover" />
+                <div class="absolute bottom-5 start-5 bg-brand-black/90 text-white px-4 py-3 rounded-xl border border-white/15">
+                  <p class="font-heading font-bold text-xs uppercase text-brand-red">Energy that endures.</p>
+                  <p class="text-xs text-gray-300 mt-0.5">Casablanca &bull; Paris &bull; International</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- PROFESSIONAL SOLUTIONS B2B BANNER -->
+          <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+            <div class="relative rounded-3xl bg-brand-black text-white overflow-hidden p-8 sm:p-14 lg:p-16">
+              <div class="absolute top-0 end-0 w-96 h-96 bg-brand-red/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+              <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                <div class="max-w-2xl space-y-4">
+                  <span class="inline-block px-3 py-1 rounded-lg bg-brand-red text-white font-heading font-bold text-[11px] uppercase tracking-widest">
+                    B2B & COMMERCIAL DIVISION
+                  </span>
+                  <h2 class="font-heading font-black text-2xl sm:text-4xl uppercase leading-tight">
+                    ${t('b2b_banner_title')}
+                  </h2>
+                  <p class="text-sm sm:text-base text-gray-300">
+                    ${t('b2b_banner_sub')}
+                  </p>
+                  <div class="flex flex-wrap gap-2 pt-1">
+                    ${['Gyms', 'Hotels', 'Fitness Clubs', 'Companies', 'Sports Centers', 'Distributors'].map(tag => `
+                      <span class="px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-gray-200">${tag}</span>
+                    `).join('')}
+                  </div>
+                </div>
+                <div class="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0 w-full sm:w-auto">
+                  <button onclick="navigateTo('b2b')" class="px-7 py-4 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-xs uppercase tracking-wider shadow-red-glow transition-all text-center">
+                    Explore B2B Solutions
+                  </button>
+                  <button onclick="openQuoteDrawer()" class="px-7 py-4 rounded-xl bg-white text-brand-black hover:bg-gray-100 font-heading font-bold text-xs uppercase tracking-wider transition-all text-center">
+                    Open Bulk Quote Builder
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TESTIMONIALS & NEWSLETTER -->
+          <section class="bg-brand-light py-16 sm:py-20 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                ${[
+                  { quote: "We equipped our Casablanca boutique club with 8 PULSEN Run Elite T900 treadmills. Biomechanics and durability exceed expectations.", author: "Mehdi Tazi", role: "Club Director — Casablanca" },
+                  { quote: "The Row Pro-Fold fits right into my apartment and folds upright in seconds. Silent magnetic pull and crisp console.", author: "Sofia El Amrani", role: "Home Athlete — Rabat" },
+                  { quote: "As a specialty fitness distributor, PULSEN FIT's packaging, retail margins, and spare-parts reliability make them a standout partner.", author: "Laurent Moreau", role: "Retail Buyer — Lyon, France" }
+                ].map(item => `
+                  <div class="bg-white p-7 rounded-2xl border border-gray-200 shadow-card flex flex-col justify-between">
+                    <div>
+                      <div class="flex text-brand-red text-xs gap-1 mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                      </div>
+                      <p class="text-sm text-gray-700 italic leading-relaxed">"${item.quote}"</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                      <p class="font-heading font-bold text-xs uppercase text-brand-black">${item.author}</p>
+                      <p class="text-xs text-brand-grey">${item.role}</p>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+
+              <!-- Newsletter Box -->
+              <div class="rounded-3xl bg-white border border-gray-200 p-8 sm:p-10 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-card">
+                <div>
+                  <h3 class="font-heading font-black text-xl sm:text-2xl uppercase text-brand-black">JOIN THE PULSEN FIT PERFORMANCE CLUB</h3>
+                  <p class="text-sm text-brand-grey mt-1">Receive new equipment releases, training guides, and B2B catalog updates.</p>
+                </div>
+                <form onsubmit="handleNewsletter(event)" class="flex w-full lg:w-auto max-w-md gap-2">
+                  <input type="email" required placeholder="Enter your email address" class="flex-1 px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red" />
+                  <button type="submit" class="px-6 py-3 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-xs uppercase tracking-wider transition-all shrink-0">
+                    Subscribe
+                  </button>
+                </form>
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    // 10. PAGE 2: OUR EQUIPMENT (CATALOG WITH SEARCH, FILTERS & SORTING)
+    function renderProductsPage() {
+      const { search, category, segment, maxPriceEUR, sort } = state.filters;
+
+      let filtered = PRODUCTS.filter(p => {
+        const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
+                            p.subtitle.toLowerCase().includes(search.toLowerCase()) ||
+                            p.sku.toLowerCase().includes(search.toLowerCase());
+        const matchCat = category === 'All' || p.category === category;
+        const matchSeg = segment === 'All' || p.segmentCode === segment;
+        const matchPrice = p.priceEUR <= maxPriceEUR;
+        return matchSearch && matchCat && matchSeg && matchPrice;
+      });
+
+      if (sort === 'price-asc') {
+        filtered.sort((a, b) => a.priceEUR - b.priceEUR);
+      } else if (sort === 'price-desc') {
+        filtered.sort((a, b) => b.priceEUR - a.priceEUR);
+      }
+
+      const categories = ['All', 'Treadmills', 'Exercise Bikes', 'Rowing Machines', 'Elliptical Trainers'];
+
+      return `
+        <div class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <!-- Page Header -->
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 border-b border-gray-200">
+            <div>
+              <span class="text-xs font-heading font-bold uppercase tracking-[0.2em] text-brand-red">HYBRID B2C & B2B CATALOG</span>
+              <h1 class="font-heading font-black text-3xl sm:text-4xl text-brand-black uppercase mt-1">OUR EQUIPMENT</h1>
+              <p class="text-sm text-brand-grey mt-1">Select individual machines for direct purchase or add multiple units to your B2B Quotation.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold text-brand-grey">${filtered.length} machine(s) displayed</span>
+            </div>
+          </div>
+
+          <!-- Filter & Search Controls -->
+          <div class="my-8 bg-brand-light p-5 rounded-2xl border border-gray-200 space-y-5">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+              <!-- Search Input -->
+              <div class="md:col-span-5 relative">
+                <i class="fa-solid fa-magnifying-glass absolute start-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" value="${search}" oninput="updateFilter('search', this.value)" placeholder="Search model, category, or SKU..." class="w-full ps-10 pe-4 py-2.5 rounded-xl bg-white border border-gray-300 text-sm focus:outline-none focus:border-brand-red" />
+              </div>
+
+              <!-- Segment Filter -->
+              <div class="md:col-span-4 flex items-center gap-1.5 bg-white p-1 rounded-xl border border-gray-300">
+                ${[
+                  { code: 'All', label: 'All Segments' },
+                  { code: 'B2C', label: 'Home (B2C)' },
+                  { code: 'B2B', label: 'Pro (B2B)' }
+                ].map(seg => `
+                  <button onclick="updateFilter('segment', '${seg.code}')" class="flex-1 py-1.5 px-2 rounded-lg text-xs font-heading font-bold uppercase transition-all ${segment === seg.code ? 'bg-brand-black text-white' : 'text-gray-600 hover:text-brand-black'}">
+                    ${seg.label}
+                  </button>
+                `).join('')}
+              </div>
+
+              <!-- Sort Dropdown -->
+              <div class="md:col-span-3">
+                <select onchange="updateFilter('sort', this.value)" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-300 text-xs font-heading font-bold uppercase text-brand-black focus:outline-none focus:border-brand-red">
+                  <option value="featured" ${sort === 'featured' ? 'selected' : ''}>Sort: Featured</option>
+                  <option value="price-asc" ${sort === 'price-asc' ? 'selected' : ''}>Price: Low to High</option>
+                  <option value="price-desc" ${sort === 'price-desc' ? 'selected' : ''}>Price: High to Low</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Category Pills + Price Slider -->
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-3 border-t border-gray-200/80">
+              <div class="flex flex-wrap gap-2">
+                ${categories.map(cat => `
+                  <button onclick="updateFilter('category', '${cat}')" class="px-4 py-2 rounded-xl text-xs font-heading font-bold uppercase tracking-wider transition-all ${category === cat ? 'bg-brand-red text-white shadow-red-glow' : 'bg-white text-brand-black border border-gray-200 hover:border-brand-black'}">
+                    ${cat}
+                  </button>
+                `).join('')}
+              </div>
+
+              <div class="flex items-center gap-3 min-w-[240px]">
+                <span class="text-xs font-semibold text-gray-600 whitespace-nowrap">Max: <strong class="text-brand-black">${formatPrice(maxPriceEUR)}</strong></span>
+                <input type="range" min="350" max="4000" step="100" value="${maxPriceEUR}" oninput="updateFilter('maxPriceEUR', Number(this.value))" class="w-full cursor-pointer" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Grid -->
+          ${filtered.length > 0 ? `
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+              ${filtered.map(p => createProductCard(p)).join('')}
+            </div>
+          ` : `
+            <div class="text-center py-20 bg-brand-light rounded-3xl border border-gray-200">
+              <i class="fa-solid fa-dumbbell text-4xl text-gray-300 mb-3"></i>
+              <h3 class="font-heading font-bold text-lg text-brand-black">No equipment matches your active filters</h3>
+              <p class="text-sm text-brand-grey mt-1">Try resetting the price range or switching back to All Categories.</p>
+              <button onclick="resetFilters()" class="mt-4 px-5 py-2.5 rounded-xl bg-brand-red text-white font-heading font-bold text-xs uppercase tracking-wider">Reset All Filters</button>
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    function updateFilter(key, value) {
+      state.filters[key] = value;
+      renderCurrentPage();
+    }
+
+    function resetFilters() {
+      state.filters = { search: '', category: 'All', segment: 'All', maxPriceEUR: 4000, sort: 'featured' };
+      renderCurrentPage();
+    }
+
+    // 11. PAGE 3: BUSINESS SOLUTIONS (B2B PAGE)
+    function renderB2BPage() {
+      const totalUnits = state.quoteItems.reduce((sum, item) => sum + item.qty, 0);
+      const estListTotalEUR = state.quoteItems.reduce((sum, item) => {
+        const prod = PRODUCTS.find(p => p.id === item.productId);
+        return sum + (prod ? prod.priceEUR * item.qty : 0);
+      }, 0);
+
+      return `
+        <div class="page-view">
+          <!-- B2B Hero -->
+          <section class="bg-brand-black text-white py-16 sm:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="max-w-3xl space-y-5">
+                <span class="px-3 py-1 rounded-lg bg-brand-red text-white font-heading font-bold text-xs uppercase tracking-widest">PULSEN FIT COMMERCIAL & DISTRIBUTION</span>
+                <h1 class="font-heading font-black text-3xl sm:text-5xl uppercase leading-tight">
+                  FITNESS SOLUTIONS FOR PROFESSIONALS
+                </h1>
+                <p class="text-gray-300 text-base sm:text-lg leading-relaxed">
+                  Partner with PULSEN FIT to outfit commercial health clubs, hospitality gyms, corporate wellness studios, and GMS/GSS retail networks across Morocco and international territories.
+                </p>
+                <div class="pt-2 flex flex-wrap gap-3">
+                  <a href="#bulk-builder" class="px-6 py-3.5 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-xs uppercase tracking-wider shadow-red-glow transition-all">
+                    Build Custom Bulk Quotation
+                  </a>
+                  <button onclick="navigateTo('products', {segment: 'B2B'})" class="px-6 py-3.5 rounded-xl border border-white/30 hover:bg-white hover:text-brand-black text-white font-heading font-bold text-xs uppercase tracking-wider transition-all">
+                    Browse Commercial Machines
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Target Client Sectors -->
+          <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h2 class="font-heading font-black text-2xl sm:text-3xl text-brand-black uppercase mb-8">Sectors We Equip</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              ${[
+                { icon: 'fa-dumbbell', title: 'Gyms & Fitness Clubs', desc: 'High-endurance AC treadmills and self-generating ellipticals built for 12+ hours of daily member usage.' },
+                { icon: 'fa-hotel', title: 'Hotels & Resorts', desc: 'Sleek, low-noise cardio suites designed for luxury hospitality spaces with turnkey installation.' },
+                { icon: 'fa-building', title: 'Companies & Corporate Wellness', desc: 'Space-efficient workplace fitness rooms boosting employee health, energy, and retention.' },
+                { icon: 'fa-store', title: 'GMS & GSS Retail Distributors', desc: 'High-rotation boxed exercise bikes and folding rowers with retail-ready packaging and logistics.' },
+                { icon: 'fa-medal', title: 'Sports Centers & Academies', desc: 'Ergometer-calibrated bikes and rowers for athletic conditioning and performance testing.' },
+                { icon: 'fa-globe', title: 'International Importers', desc: 'Container-load export capabilities from Casablanca with dedicated technical documentation.' }
+              ].map(sec => `
+                <div class="p-6 rounded-2xl bg-brand-light border border-gray-200 hover:border-brand-red transition-all">
+                  <i class="fa-solid ${sec.icon} text-2xl text-brand-red mb-4"></i>
+                  <h3 class="font-heading font-bold text-base uppercase text-brand-black mb-2">${sec.title}</h3>
+                  <p class="text-sm text-gray-600 leading-relaxed">${sec.desc}</p>
+                </div>
+              `).join('')}
+            </div>
+          </section>
+
+          <!-- Interactive Bulk Quotation Builder -->
+          <section id="bulk-builder" class="bg-brand-light py-16 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="mb-10">
+                <span class="text-xs font-heading font-bold uppercase tracking-[0.2em] text-brand-red">INTERACTIVE FLEET CONFIGURATOR</span>
+                <h2 class="font-heading font-black text-2xl sm:text-4xl text-brand-black uppercase mt-1">B2B Bulk Quotation Builder</h2>
+                <p class="text-sm text-brand-grey mt-1">Configure your equipment quantities below to generate a tailored B2B volume proposal.</p>
+              </div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Left: Equipment Matrix -->
+                <div class="lg:col-span-7 bg-white rounded-3xl border border-gray-200 p-6 shadow-card space-y-4">
+                  <h3 class="font-heading font-bold text-sm uppercase tracking-wider text-brand-black pb-3 border-b border-gray-100">Select Models & Quantities</h3>
+                  ${PRODUCTS.map(p => {
+                    const existing = state.quoteItems.find(q => q.productId === p.id);
+                    const qty = existing ? existing.qty : 0;
+                    return `
+                      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl border ${qty > 0 ? 'border-brand-red bg-red-50/20' : 'border-gray-200'}">
+                        <div class="flex items-center gap-3.5">
+                          <img src="${p.images[0]}" alt="${p.name}" class="w-16 h-16 rounded-xl object-cover shrink-0" />
+                          <div>
+                            <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-gray-100 text-brand-black">${p.segment}</span>
+                            <h4 class="font-heading font-bold text-sm text-brand-black mt-1">${p.name}</h4>
+                            <p class="text-xs text-brand-grey">Indicative Unit Ref: ${formatPrice(p.priceEUR)}</p>
+                          </div>
+                        </div>
+                        <div class="flex items-center gap-2 self-end sm:self-center">
+                          <button onclick="setQuoteQty('${p.id}', ${Math.max(0, qty - 1)})" class="w-8 h-8 rounded-lg border border-gray-300 hover:bg-brand-black hover:text-white font-bold transition-colors">-</button>
+                          <input type="number" min="0" max="500" value="${qty}" onchange="setQuoteQty('${p.id}', Number(this.value))" class="w-14 text-center py-1.5 rounded-lg border border-gray-300 text-sm font-bold" />
+                          <button onclick="setQuoteQty('${p.id}', ${qty + 1})" class="w-8 h-8 rounded-lg border border-gray-300 hover:bg-brand-red hover:text-white font-bold transition-colors">+</button>
+                        </div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+
+                <!-- Right: Summary & Submission -->
+                <div class="lg:col-span-5">
+                  <div class="bg-brand-black text-white rounded-3xl p-6 sm:p-8 shadow-2xl sticky top-24 space-y-5">
+                    <h3 class="font-heading font-bold text-base uppercase tracking-wider border-b border-white/15 pb-3">Fleet Quotation Summary</h3>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-400">Total Selected Units:</span>
+                      <span class="font-heading font-extrabold text-brand-red text-lg">${totalUnits} Units</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-400">Indicative Catalog Value:</span>
+                      <span class="font-heading font-bold text-white">${formatPrice(estListTotalEUR)}</span>
+                    </div>
+                    <p class="text-xs text-gray-400 bg-white/5 p-3 rounded-xl border border-white/10">
+                      Volume tier pricing, distributor credit terms, and delivery schedules are calculated upon review by our B2B sales engineers.
+                    </p>
+                    <button onclick="openQuoteDrawer()" class="w-full py-4 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-xs uppercase tracking-wider shadow-red-glow transition-all">
+                      Complete & Submit Quote Request
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    // 12. PAGE 4: ABOUT US PAGE
+    function renderAboutPage() {
+      return `
+        <div class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-16">
+          <div class="max-w-3xl space-y-4">
+            <span class="text-xs font-heading font-bold uppercase tracking-[0.2em] text-brand-red">OUR IDENTITY & HERITAGE</span>
+            <h1 class="font-heading font-black text-3xl sm:text-5xl text-brand-black uppercase leading-tight">
+              ENERGY THAT ENDURES.
+            </h1>
+            <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+              PULSEN FIT is an international fitness and cardio-training equipment brand, combining precision engineering with modern athletic ergonomics for Morocco and global markets.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="p-8 rounded-3xl bg-brand-light border border-gray-200 space-y-3">
+              <span class="text-xs font-heading font-bold uppercase text-brand-red">01 / OUR STORY</span>
+              <h2 class="font-heading font-extrabold text-xl uppercase text-brand-black">From Home Cardio to Commercial Excellence</h2>
+              <p class="text-sm text-gray-600 leading-relaxed">
+                PULSEN FIT began by engineering reliable, accessible electromagnetic exercise bikes and folding central-pull rowing machines for home athletes and retail networks (GMS/GSS). Building on strong market adoption, we expanded into commercial-grade motorized treadmills and oscillation ellipticals engineered for demanding health clubs.
+              </p>
+            </div>
+            <div class="p-8 rounded-3xl bg-brand-black text-white space-y-3">
+              <span class="text-xs font-heading font-bold uppercase text-brand-red">02 / MISSION & VISION</span>
+              <h2 class="font-heading font-extrabold text-xl uppercase">Democratizing Durable Performance</h2>
+              <p class="text-sm text-gray-300 leading-relaxed">
+                Our mission is to empower every individual and commercial facility with cardio equipment that blends mechanical longevity, intuitive telemetry, and bold industrial design. Our vision is to stand as the benchmark African and Mediterranean fitness equipment manufacturer on the international stage.
+              </p>
+            </div>
+          </div>
+
+          <!-- Core Values -->
+          <div>
+            <h2 class="font-heading font-black text-2xl uppercase text-brand-black mb-6">Our Core Values</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              ${[
+                { title: 'Structural Endurance', desc: 'Reinforced frames and tested drive mechanisms designed for years of consistent training.' },
+                { title: 'Human Ergonomics', desc: 'Every curve in our emblem and handlebars reflects natural athletic posture and comfort.' },
+                { title: 'Hybrid Agility', desc: 'Equally responsive to an individual home buyer in Rabat and a 20-machine club rollout in Paris.' },
+                { title: 'Transparent Partnership', desc: 'Clear specifications, dependable spare-parts logistics, and dedicated technical support.' }
+              ].map(v => `
+                <div class="p-6 rounded-2xl border border-gray-200 bg-white shadow-card">
+                  <div class="w-3 h-3 rounded-full bg-brand-red mb-4"></div>
+                  <h3 class="font-heading font-bold text-sm uppercase text-brand-black mb-2">${v.title}</h3>
+                  <p class="text-xs text-gray-600 leading-relaxed">${v.desc}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 13. PAGE 5: CONTACT PAGE
+    function renderContactPage() {
+      return `
+        <div class="page-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            <div class="lg:col-span-5 space-y-6">
+              <span class="text-xs font-heading font-bold uppercase tracking-[0.2em] text-brand-red">GET IN TOUCH</span>
+              <h1 class="font-heading font-black text-3xl sm:text-4xl text-brand-black uppercase">MOROCCO & INTERNATIONAL DESK</h1>
+              <p class="text-sm text-gray-600 leading-relaxed">
+                Whether you are equipping a home gym, inquiring about Cash on Delivery in Morocco, or planning a commercial club installation, our specialists are ready to assist.
+              </p>
+
+              <div class="space-y-4 pt-2">
+                <div class="p-4 rounded-2xl bg-brand-light border border-gray-200 flex items-start gap-3.5">
+                  <i class="fa-solid fa-building text-brand-red text-lg mt-1"></i>
+                  <div>
+                    <h4 class="font-heading font-bold text-xs uppercase text-brand-black">Casablanca Headquarters</h4>
+                    <p class="text-xs text-gray-600 mt-0.5">Zone Industrielle Sidi Maarouf, 20280 Casablanca, Morocco</p>
+                  </div>
+                </div>
+                <div class="p-4 rounded-2xl bg-brand-light border border-gray-200 flex items-start gap-3.5">
+                  <i class="fa-solid fa-plane-departure text-brand-red text-lg mt-1"></i>
+                  <div>
+                    <h4 class="font-heading font-bold text-xs uppercase text-brand-black">International Export & B2B Desk</h4>
+                    <p class="text-xs text-gray-600 mt-0.5">export@pulsenfit.com &bull; Europe, MENA & West Africa Logistics</p>
+                  </div>
+                </div>
+              </div>
+
+              <a href="https://wa.me/212522000000" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 px-6 py-3.5 rounded-xl bg-[#25D366] text-white font-heading font-bold text-xs uppercase tracking-wider shadow-lg hover:opacity-95 transition-opacity">
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+                <span>Chat Directly on WhatsApp</span>
+              </a>
+            </div>
+
+            <div class="lg:col-span-7 bg-white rounded-3xl border border-gray-200 p-7 sm:p-10 shadow-card">
+              <h2 class="font-heading font-extrabold text-xl uppercase text-brand-black mb-6">Send Us a Message</h2>
+              <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
+                    <input type="text" required placeholder="Your Name" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red" />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Email Address *</label>
+                    <input type="email" required placeholder="you@domain.com" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red" />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Inquiry Type</label>
+                    <select class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm bg-white focus:outline-none focus:border-brand-red">
+                      <option>Home Equipment (B2C)</option>
+                      <option>Gym / Hotel Commercial Project (B2B)</option>
+                      <option>GMS / GSS Retail Distribution</option>
+                      <option>Technical Support & Spare Parts</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Country / City</label>
+                    <input type="text" placeholder="e.g., Casablanca, Morocco" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red" />
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-gray-700 mb-1">Message *</label>
+                  <textarea rows="4" required placeholder="Tell us about your fitness goals or facility requirements..." class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red"></textarea>
+                </div>
+                <button type="submit" class="w-full py-4 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-xs uppercase tracking-wider shadow-red-glow transition-all">
+                  Submit Inquiry
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 14. PRODUCT DETAILS MODAL
+    function openProductDetail(productId) {
+      const p = PRODUCTS.find(item => item.id === productId);
+      if (!p) return;
+
+      const related = PRODUCTS.filter(item => item.id !== p.id).slice(0, 2);
+      const modal = document.getElementById('productDetailModal');
+      const content = document.getElementById('productDetailContent');
+
+      content.innerHTML = `
+        <button onclick="closeProductDetail()" aria-label="Close" class="absolute top-4 end-4 z-10 w-10 h-10 rounded-full bg-brand-black text-white hover:bg-brand-red flex items-center justify-center transition-colors shadow-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2">
+          <!-- Gallery Column -->
+          <div class="bg-brand-light p-6 sm:p-8 flex flex-col justify-between">
+            <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-white border border-gray-200">
+              <img id="detailMainImg" src="${p.images[0]}" alt="${p.name}" class="w-full h-full object-cover" />
+            </div>
+            ${p.images.length > 1 ? `
+              <div class="flex gap-3 mt-4">
+                ${p.images.map((img, idx) => `
+                  <button onclick="document.getElementById('detailMainImg').src='${img}'" class="w-20 h-16 rounded-xl overflow-hidden border-2 ${idx === 0 ? 'border-brand-red' : 'border-transparent'} hover:border-brand-red transition-all">
+                    <img src="${img}" alt="Thumbnail" class="w-full h-full object-cover" />
+                  </button>
+                `).join('')}
+              </div>
+            ` : ''}
+
+            <div class="mt-6 p-4 rounded-2xl bg-white border border-gray-200 text-xs text-gray-600 space-y-1.5">
+              <p class="font-heading font-bold uppercase text-brand-black"><i class="fa-solid fa-truck text-brand-red me-1.5"></i> Logistics & Terms</p>
+              <p>${p.deliveryInfo}</p>
+            </div>
+          </div>
+
+          <!-- Specs & Purchase Column -->
+          <div class="p-6 sm:p-8 space-y-5 max-h-[82vh] overflow-y-auto">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="px-2.5 py-0.5 rounded bg-brand-red text-white text-[10px] font-heading font-bold uppercase">${p.category}</span>
+                <span class="px-2.5 py-0.5 rounded bg-brand-black text-white text-[10px] font-heading font-bold uppercase">${p.segment}</span>
+                <span class="text-xs font-mono text-gray-400">${p.sku}</span>
+              </div>
+              <h2 class="font-heading font-black text-2xl sm:text-3xl text-brand-black uppercase">${p.name}</h2>
+              <p class="text-sm font-medium text-brand-grey">${p.subtitle}</p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-brand-light border border-gray-200 flex items-baseline justify-between">
+              <div>
+                <span class="block text-[10px] uppercase tracking-wider text-brand-grey">${t('indicative_label')}</span>
+                <span class="font-heading font-black text-3xl text-brand-black">${formatPrice(p.priceEUR)}</span>
+              </div>
+              <span class="text-xs font-bold text-emerald-600"><i class="fa-solid fa-circle-check me-1"></i>${p.availability}</span>
+            </div>
+
+            <p class="text-sm text-gray-600 leading-relaxed">${p.description}</p>
+
+            <!-- Benefits -->
+            <div>
+              <h4 class="font-heading font-bold text-xs uppercase tracking-wider text-brand-black mb-2">Key Performance Benefits</h4>
+              <ul class="space-y-1.5">
+                ${p.benefits.map(b => `
+                  <li class="text-xs text-gray-700 flex items-start gap-2">
+                    <i class="fa-solid fa-check text-brand-red mt-0.5"></i>
+                    <span>${b}</span>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+
+            <!-- Technical Specifications Table -->
+            <div>
+              <h4 class="font-heading font-bold text-xs uppercase tracking-wider text-brand-black mb-2">Sample Technical Specifications</h4>
+              <div class="rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-200 text-xs">
+                ${Object.entries(p.specs).map(([k, v]) => `
+                  <div class="grid grid-cols-2 px-3.5 py-2 bg-white">
+                    <span class="font-semibold text-gray-600">${k}</span>
+                    <span class="font-bold text-brand-black text-end">${v}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <button onclick="addToCart('${p.id}'); closeProductDetail();" class="py-3.5 px-4 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-xs uppercase tracking-wider shadow-red-glow transition-all">
+                <i class="fa-solid fa-bag-shopping me-1.5"></i> ${t('btn_add_cart')}
+              </button>
+              <button onclick="addToQuote('${p.id}'); closeProductDetail();" class="py-3.5 px-4 rounded-xl bg-brand-black hover:bg-gray-800 text-white font-heading font-bold text-xs uppercase tracking-wider transition-all">
+                <i class="fa-solid fa-file-invoice me-1.5"></i> ${t('btn_req_quote')}
+              </button>
+            </div>
+
+            <!-- Related Products -->
+            <div class="pt-4 border-t border-gray-200">
+              <p class="font-heading font-bold text-xs uppercase text-brand-grey mb-2.5">Complementary Machines</p>
+              <div class="grid grid-cols-2 gap-3">
+                ${related.map(r => `
+                  <div onclick="openProductDetail('${r.id}')" class="p-2.5 rounded-xl border border-gray-200 hover:border-brand-red cursor-pointer flex items-center gap-2.5 transition-colors">
+                    <img src="${r.images[0]}" alt="${r.name}" class="w-12 h-12 rounded-lg object-cover shrink-0" />
+                    <div class="min-w-0">
+                      <p class="font-heading font-bold text-xs text-brand-black truncate">${r.name}</p>
+                      <p class="text-[11px] font-bold text-brand-red">${formatPrice(r.priceEUR)}</p>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeProductDetail() {
+      document.getElementById('productDetailModal').classList.add('hidden');
+    }
+
+    // 15. SHOPPING CART WORKFLOW
+    function addToCart(productId) {
+      const existing = state.cart.find(item => item.productId === productId);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        state.cart.push({ productId, qty: 1 });
+      }
+      updateBadges();
+      renderCart();
+      const prod = PRODUCTS.find(p => p.id === productId);
+      showToast(`${prod.name} added to cart`);
+    }
+
+    function updateCartQty(productId, delta) {
+      const idx = state.cart.findIndex(item => item.productId === productId);
+      if (idx === -1) return;
+      state.cart[idx].qty += delta;
+      if (state.cart[idx].qty <= 0) {
+        state.cart.splice(idx, 1);
+      }
+      updateBadges();
+      renderCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cartItemsContainer');
+      const zone = document.getElementById('shippingZone').value;
+      const checkoutBtn = document.getElementById('checkoutTriggerBtn');
+
+      if (state.cart.length === 0) {
+        container.innerHTML = `
+          <div class="h-full flex flex-col items-center justify-center text-center py-12">
+            <i class="fa-solid fa-bag-shopping text-4xl text-gray-300 mb-3"></i>
+            <p class="font-heading font-bold text-sm uppercase text-brand-black">Your cart is empty</p>
+            <p class="text-xs text-brand-grey mt-1 max-w-xs">Explore our home & commercial cardio equipment to start your order.</p>
+            <button onclick="closeCartDrawer(); navigateTo('products');" class="mt-5 px-5 py-2.5 rounded-xl bg-brand-red text-white font-heading font-bold text-xs uppercase tracking-wider">Browse Equipment</button>
+          </div>
+        `;
+        document.getElementById('cartSubtotal').textContent = formatPrice(0);
+        document.getElementById('cartShipping').textContent = formatPrice(0);
+        document.getElementById('cartTotal').textContent = formatPrice(0);
+        checkoutBtn.disabled = true;
+        return;
+      }
+
+      checkoutBtn.disabled = false;
+      let subtotalEUR = 0;
+
+      container.innerHTML = state.cart.map(item => {
+        const p = PRODUCTS.find(prod => prod.id === item.productId);
+        const lineEUR = p.priceEUR * item.qty;
+        subtotalEUR += lineEUR;
+        return `
+          <div class="flex gap-3.5 p-3.5 rounded-2xl border border-gray-200 bg-white">
+            <img src="${p.images[0]}" alt="${p.name}" class="w-20 h-20 rounded-xl object-cover shrink-0" />
+            <div class="flex-1 min-w-0">
+              <div class="flex justify-between items-start gap-2">
+                <h4 class="font-heading font-bold text-sm text-brand-black truncate">${p.name}</h4>
+                <button onclick="updateCartQty('${p.id}', -${item.qty})" class="text-gray-400 hover:text-brand-red text-xs"><i class="fa-solid fa-trash"></i></button>
+              </div>
+              <p class="text-[11px] text-brand-grey">${p.category}</p>
+              <div class="mt-3 flex items-center justify-between">
+                <div class="inline-flex items-center border border-gray-300 rounded-lg">
+                  <button onclick="updateCartQty('${p.id}', -1)" class="px-2.5 py-1 text-xs font-bold hover:bg-gray-100">-</button>
+                  <span class="px-2.5 py-1 text-xs font-bold">${item.qty}</span>
+                  <button onclick="updateCartQty('${p.id}', 1)" class="px-2.5 py-1 text-xs font-bold hover:bg-gray-100">+</button>
+                </div>
+                <span class="font-heading font-extrabold text-sm text-brand-black">${formatPrice(lineEUR)}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const shippingEUR = zone === 'morocco' ? 30 : 180;
+      document.getElementById('cartSubtotal').textContent = formatPrice(subtotalEUR);
+      document.getElementById('cartShipping').textContent = formatPrice(shippingEUR);
+      document.getElementById('cartTotal').textContent = formatPrice(subtotalEUR + shippingEUR);
+    }
+
+    function openCartDrawer() {
+      renderCart();
+      document.getElementById('cartDrawerBackdrop').classList.remove('hidden');
+      document.getElementById('cartDrawer').classList.remove('translate-x-full', 'rtl:-translate-x-full');
+    }
+
+    function closeCartDrawer() {
+      document.getElementById('cartDrawerBackdrop').classList.add('hidden');
+      document.getElementById('cartDrawer').classList.add('translate-x-full', 'rtl:-translate-x-full');
+    }
+
+    // 16. CHECKOUT & ORDER CREATION
+    function openCheckoutModal() {
+      closeCartDrawer();
+      const zone = document.getElementById('shippingZone').value;
+      const subtotalEUR = state.cart.reduce((sum, i) => sum + PRODUCTS.find(p => p.id === i.productId).priceEUR * i.qty, 0);
+      const shippingEUR = zone === 'morocco' ? 30 : 180;
+      const totalEUR = subtotalEUR + shippingEUR;
+
+      document.getElementById('checkoutBody').innerHTML = `
+        <form onsubmit="completeOrder(event, ${totalEUR})" class="space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
+              <input type="text" id="chkName" required placeholder="e.g., Youssef Alaoui" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Phone (WhatsApp) *</label>
+              <input type="tel" id="chkPhone" required placeholder="+212 6 00 00 00 00" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Country / Region *</label>
+              <select id="chkCountry" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm bg-white focus:outline-none focus:border-brand-red">
+                <option value="Morocco" ${zone === 'morocco' ? 'selected' : ''}>Morocco (COD Available)</option>
+                <option value="France" ${zone === 'international' ? 'selected' : ''}>France / European Union</option>
+                <option value="International">Other International Destination</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">City & Delivery Address *</label>
+              <input type="text" id="chkCity" required placeholder="Casablanca — Boulevard d'Anfa" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-brand-red" />
+            </div>
+          </div>
+
+          <!-- Payment Method Selection -->
+          <div>
+            <label class="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-2">Payment Method</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <label class="p-3.5 rounded-xl border-2 border-brand-black bg-brand-light flex items-center gap-3 cursor-pointer">
+                <input type="radio" name="payMethod" value="Cash on Delivery (Morocco)" checked class="text-brand-red" />
+                <div>
+                  <p class="font-heading font-bold text-xs uppercase text-brand-black">Cash on Delivery (COD)</p>
+                  <p class="text-[11px] text-gray-500">Pay upon delivery across Morocco</p>
+                </div>
+              </label>
+              <label class="p-3.5 rounded-xl border border-gray-300 flex items-center gap-3 cursor-pointer">
+                <input type="radio" name="payMethod" value="Online Card / CMI & International" class="text-brand-red" />
+                <div>
+                  <p class="font-heading font-bold text-xs uppercase text-brand-black">Online Card Payment</p>
+                  <p class="text-[11px] text-gray-500">CMI Morocco / Visa / Mastercard</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-brand-black text-white flex items-center justify-between">
+            <div>
+              <p class="text-xs text-gray-400">Order Total (${state.cart.reduce((s, i) => s + i.qty, 0)} items + logistics)</p>
+              <p class="font-heading font-black text-2xl text-brand-red">${formatPrice(totalEUR)}</p>
+            </div>
+            <button type="submit" class="px-6 py-3.5 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-xs uppercase tracking-wider shadow-red-glow transition-all">
+              Confirm Order
+            </button>
+          </div>
+        </form>
+      `;
+
+      document.getElementById('checkoutModal').classList.remove('hidden');
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkoutModal').classList.add('hidden');
+    }
+
+    function completeOrder(e, totalEUR) {
+      e.preventDefault();
+      const name = document.getElementById('chkName').value;
+      const city = document.getElementById('chkCity').value;
+      const payment = document.querySelector('input[name="payMethod"]:checked').value;
+      const orderId = 'PF-2026-' + Math.floor(1000 + Math.random() * 9000);
+      const itemsSummary = state.cart.map(i => `${i.qty}× ${PRODUCTS.find(p => p.id === i.productId).name}`).join(', ');
+
+      state.orders.unshift({
+        id: orderId,
+        date: new Date().toISOString().split('T')[0],
+        customer: `${name} (${city})`,
+        items: itemsSummary,
+        totalEUR,
+        payment,
+        status: 'Order Confirmed — Preparing Dispatch',
+        step: 1
+      });
+
+      state.cart = [];
+      updateBadges();
+
+      document.getElementById('checkoutBody').innerHTML = `
+        <div class="text-center py-6 space-y-4">
+          <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <h4 class="font-heading font-black text-2xl uppercase text-brand-black">Order Confirmed!</h4>
+          <p class="text-sm text-gray-600 max-w-md mx-auto">
+            Thank you, <strong>${name}</strong>. Your order reference <span class="font-mono font-bold text-brand-red">${orderId}</span> has been registered in our logistics system.
+          </p>
+          <div class="pt-3 flex justify-center gap-3">
+            <button onclick="closeCheckoutModal(); openAccountModal('orders');" class="px-6 py-3 rounded-xl bg-brand-black text-white font-heading font-bold text-xs uppercase tracking-wider">
+              Track Order Live
+            </button>
+            <button onclick="closeCheckoutModal();" class="px-6 py-3 rounded-xl border border-gray-300 text-brand-black font-heading font-bold text-xs uppercase tracking-wider">
+              Continue Browsing
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // 17. B2B QUOTATION WORKFLOW
+    function addToQuote(productId) {
+      const existing = state.quoteItems.find(q => q.productId === productId);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        state.quoteItems.push({ productId, qty: 2 });
+      }
+      updateBadges();
+      renderQuoteDrawer();
+      const prod = PRODUCTS.find(p => p.id === productId);
+      showToast(`${prod.name} added to B2B Quote`);
+      openQuoteDrawer();
+    }
+
+    function setQuoteQty(productId, qty) {
+      const idx = state.quoteItems.findIndex(q => q.productId === productId);
+      if (qty <= 0) {
+        if (idx !== -1) state.quoteItems.splice(idx, 1);
+      } else if (idx !== -1) {
+        state.quoteItems[idx].qty = qty;
+      } else {
+        state.quoteItems.push({ productId, qty });
+      }
+      updateBadges();
+      renderQuoteDrawer();
+      if (state.currentPage === 'b2b') renderCurrentPage();
+    }
+
+    function renderQuoteDrawer() {
+      const listEl = document.getElementById('quoteItemsList');
+      if (state.quoteItems.length === 0) {
+        listEl.innerHTML = `<p class="text-xs text-brand-grey bg-brand-light p-4 rounded-xl border border-gray-200">No machines in your quote list yet. Click "Request Quote" on any machine or use our B2B Bulk Builder.</p>`;
+        return;
+      }
+
+      listEl.innerHTML = state.quoteItems.map(item => {
+        const p = PRODUCTS.find(prod => prod.id === item.productId);
+        return `
+          <div class="flex items-center justify-between gap-3 p-3 rounded-xl border border-gray-200 bg-brand-light">
+            <div class="min-w-0">
+              <p class="font-heading font-bold text-xs text-brand-black truncate">${p.name}</p>
+              <p class="text-[11px] text-brand-grey">${p.segment} &bull; Ref: ${formatPrice(p.priceEUR)}</p>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button onclick="setQuoteQty('${p.id}', ${item.qty - 1})" class="w-7 h-7 rounded bg-white border border-gray-300 text-xs font-bold">-</button>
+              <span class="w-8 text-center text-xs font-bold">${item.qty}</span>
+              <button onclick="setQuoteQty('${p.id}', ${item.qty + 1})" class="w-7 h-7 rounded bg-white border border-gray-300 text-xs font-bold">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openQuoteDrawer() {
+      renderQuoteDrawer();
+      document.getElementById('quoteDrawerBackdrop').classList.remove('hidden');
+      document.getElementById('quoteDrawer').classList.remove('translate-x-full', 'rtl:-translate-x-full');
+    }
+
+    function closeQuoteDrawer() {
+      document.getElementById('quoteDrawerBackdrop').classList.add('hidden');
+      document.getElementById('quoteDrawer').classList.add('translate-x-full', 'rtl:-translate-x-full');
+    }
+
+    function submitQuoteRequest(e) {
+      e.preventDefault();
+      if (state.quoteItems.length === 0) {
+        showToast('Please add at least 1 equipment item to your quote.', 'info');
+        return;
+      }
+      const company = document.getElementById('quoteCompany').value;
+      const segment = document.getElementById('quoteSegment').value;
+      const ref = 'QT-2026-' + Math.floor(1000 + Math.random() * 9000);
+      const summary = state.quoteItems.map(i => `${i.qty}× ${PRODUCTS.find(p => p.id === i.productId).name}`).join(', ');
+
+      state.submittedQuotes.unshift({
+        ref,
+        date: new Date().toISOString().split('T')[0],
+        company,
+        segment,
+        itemsSummary: summary,
+        status: 'Under B2B Engineering Review'
+      });
+
+      closeQuoteDrawer();
+      showToast(`Quote ${ref} submitted successfully!`);
+      openAccountModal('quotes');
+    }
+
+    // 18. WISHLIST & COMPARISON SYSTEM
+    function toggleWishlist(productId) {
+      const idx = state.wishlist.indexOf(productId);
+      if (idx === -1) {
+        state.wishlist.push(productId);
+        showToast('Saved to your Wishlist');
+      } else {
+        state.wishlist.splice(idx, 1);
+        showToast('Removed from Wishlist');
+      }
+      updateBadges();
+      renderCurrentPage();
+    }
+
+    function toggleCompare(productId) {
+      const idx = state.compareList.indexOf(productId);
+      if (idx === -1) {
+        if (state.compareList.length >= 3) {
+          showToast('Maximum 3 machines can be compared simultaneously.');
+          renderCurrentPage();
+          return;
+        }
+        state.compareList.push(productId);
+      } else {
+        state.compareList.splice(idx, 1);
+      }
+      updateCompareBar();
+    }
+
+    function clearCompare() {
+      state.compareList = [];
+      updateCompareBar();
+      renderCurrentPage();
+    }
+
+    function updateCompareBar() {
+      const bar = document.getElementById('compareBar');
+      if (state.compareList.length === 0) {
+        bar.classList.add('hidden');
+        return;
+      }
+      bar.classList.remove('hidden');
+      document.getElementById('compareCount').textContent = state.compareList.length;
+      const names = state.compareList.map(id => PRODUCTS.find(p => p.id === id).name).join(' vs ');
+      document.getElementById('compareNames').textContent = names;
+    }
+
+    function openCompareModal() {
+      const items = state.compareList.map(id => PRODUCTS.find(p => p.id === id));
+      if (items.length === 0) return;
+
+      const specRows = ['Category', 'Target Segment', 'Indicative Price', 'Resistance / Drive', 'Max User Weight', 'Dimensions'];
+      document.getElementById('compareTableContainer').innerHTML = `
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-gray-200">
+              <th class="p-3 font-heading font-bold uppercase text-brand-grey w-40">Specification</th>
+              ${items.map(p => `
+                <th class="p-3 min-w-[200px]">
+                  <img src="${p.images[0]}" alt="${p.name}" class="w-full h-32 object-cover rounded-xl mb-2" />
+                  <p class="font-heading font-extrabold text-sm text-brand-black">${p.name}</p>
+                  <p class="text-[11px] font-normal text-brand-grey">${p.sku}</p>
+                </th>
+              `).join('')}
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr>
+              <td class="p-3 font-semibold text-gray-600">Category</td>
+              ${items.map(p => `<td class="p-3 font-bold">${p.category}</td>`).join('')}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-gray-600">Segment</td>
+              ${items.map(p => `<td class="p-3"><span class="px-2 py-0.5 rounded bg-brand-black text-white font-bold text-[10px]">${p.segment}</span></td>`).join('')}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-gray-600">Indicative Price</td>
+              ${items.map(p => `<td class="p-3 font-heading font-black text-sm text-brand-red">${formatPrice(p.priceEUR)}</td>`).join('')}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-gray-600">Primary System</td>
+              ${items.map(p => `<td class="p-3">${Object.values(p.specs)[0]}</td>`).join('')}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-gray-600">Max User Weight</td>
+              ${items.map(p => `<td class="p-3">${p.specs['Max User Weight']}</td>`).join('')}
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-gray-600">Action</td>
+              ${items.map(p => `
+                <td class="p-3">
+                  <button onclick="addToCart('${p.id}'); closeCompareModal();" class="px-4 py-2 rounded-lg bg-brand-red text-white font-heading font-bold uppercase text-[10px]">Add to Cart</button>
+                </td>
+              `).join('')}
+            </tr>
+          </tbody>
+        </table>
+      `;
+      document.getElementById('compareModal').classList.remove('hidden');
+    }
+
+    function closeCompareModal() {
+      document.getElementById('compareModal').classList.add('hidden');
+    }
+
+    // 19. CUSTOMER PORTAL (ORDERS, WISHLIST, QUOTES)
+    function openAccountModal(defaultTab = 'orders') {
+      document.getElementById('accountModal').classList.remove('hidden');
+      switchPortalTab(defaultTab);
+    }
+
+    function closeAccountModal() {
+      document.getElementById('accountModal').classList.add('hidden');
+    }
+
+    function switchPortalTab(tab) {
+      document.querySelectorAll('.portal-tab').forEach(btn => {
+        btn.classList.remove('border-brand-red', 'text-brand-red');
+        btn.classList.add('border-transparent', 'text-brand-grey');
+      });
+      const activeBtn = document.getElementById(`tab-${tab}`);
+      activeBtn.classList.add('border-brand-red', 'text-brand-red');
+      activeBtn.classList.remove('border-transparent', 'text-brand-grey');
+
+      const body = document.getElementById('portalBody');
+
+      if (tab === 'orders') {
+        body.innerHTML = `
+          <div class="space-y-4">
+            ${state.orders.map(ord => `
+              <div class="p-5 rounded-2xl border border-gray-200 bg-brand-light space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <span class="font-mono font-bold text-sm text-brand-red">${ord.id}</span>
+                    <span class="text-xs text-gray-500 ms-2">&bull; ${ord.date}</span>
+                  </div>
+                  <span class="px-3 py-1 rounded-full bg-brand-black text-white text-[11px] font-bold">${ord.status}</span>
+                </div>
+                <p class="text-xs text-gray-700"><strong>Items:</strong> ${ord.items}</p>
+                <p class="text-xs text-gray-600"><strong>Destination:</strong> ${ord.customer} &bull; <strong>Payment:</strong> ${ord.payment}</p>
+                <!-- Progress Bar -->
+                <div class="grid grid-cols-4 gap-1.5 pt-2">
+                  <div class="h-1.5 rounded-full bg-brand-red"></div>
+                  <div class="h-1.5 rounded-full ${ord.step >= 2 ? 'bg-brand-red' : 'bg-gray-300'}"></div>
+                  <div class="h-1.5 rounded-full ${ord.step >= 3 ? 'bg-brand-red' : 'bg-gray-300'}"></div>
+                  <div class="h-1.5 rounded-full ${ord.step >= 4 ? 'bg-brand-red' : 'bg-gray-300'}"></div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } else if (tab === 'wishlist') {
+        if (state.wishlist.length === 0) {
+          body.innerHTML = `<p class="text-sm text-brand-grey text-center py-8">Your wishlist is currently empty.</p>`;
+          return;
+        }
+        body.innerHTML = `
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            ${state.wishlist.map(id => {
+              const p = PRODUCTS.find(prod => prod.id === id);
+              return `
+                <div class="p-3.5 rounded-2xl border border-gray-200 flex items-center gap-3">
+                  <img src="${p.images[0]}" alt="${p.name}" class="w-16 h-16 rounded-xl object-cover" />
+                  <div class="flex-1 min-w-0">
+                    <h4 class="font-heading font-bold text-xs text-brand-black truncate">${p.name}</h4>
+                    <p class="font-bold text-xs text-brand-red mt-0.5">${formatPrice(p.priceEUR)}</p>
+                    <div class="mt-2 flex gap-2">
+                      <button onclick="addToCart('${p.id}'); closeAccountModal();" class="px-2.5 py-1 rounded bg-brand-black text-white text-[10px] font-bold uppercase">Add to Cart</button>
+                      <button onclick="toggleWishlist('${p.id}'); switchPortalTab('wishlist');" class="text-[10px] text-gray-500 hover:text-brand-red">Remove</button>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      } else if (tab === 'quotes') {
+        body.innerHTML = `
+          <div class="space-y-4">
+            ${state.submittedQuotes.map(q => `
+              <div class="p-5 rounded-2xl border border-gray-200 bg-brand-light space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-mono font-bold text-sm text-brand-red">${q.ref}</span>
+                  <span class="px-2.5 py-0.5 rounded bg-emerald-600 text-white text-[10px] font-bold uppercase">${q.status}</span>
+                </div>
+                <p class="font-heading font-bold text-xs text-brand-black">${q.company} (${q.segment})</p>
+                <p class="text-xs text-gray-600">${q.itemsSummary}</p>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+    }
+
+    // 20. FORM HANDLERS & BADGE SYNC
+    function handleNewsletter(e) {
+      e.preventDefault();
+      e.target.reset();
+      showToast('Welcome to PULSEN FIT! Subscription confirmed.');
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      e.target.reset();
+      showToast('Message received by our Casablanca & Export desk.');
+    }
+
+    function updateBadges() {
+      const cartTotal = state.cart.reduce((s, i) => s + i.qty, 0);
+      document.getElementById('cartBadge').textContent = cartTotal;
+
+      const quoteTotal = state.quoteItems.reduce((s, i) => s + i.qty, 0);
+      document.getElementById('quoteBadge').textContent = quoteTotal;
+
+      const wishBadge = document.getElementById('wishlistBadge');
+      if (state.wishlist.length > 0) {
+        wishBadge.textContent = state.wishlist.length;
+        wishBadge.classList.remove('hidden');
+      } else {
+        wishBadge.classList.add('hidden');
+      }
+    }
+
+    // INITIALIZE APP ON LOAD
+    window.addEventListener('DOMContentLoaded', () => {
+      updateBadges();
+      renderCurrentPage();
+    });
+  </script>
+</body>
+</html>
