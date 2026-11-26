@@ -14,31 +14,38 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              red: '#E51B23',
-              redDark: '#C4141B',
-              black: '#171717',
-              charcoal: '#222222',
-              grey: '#777777',
-              light: '#F7F7F8',
+    // Configure Tailwind safely once available
+    function configureTailwind() {
+      if (typeof window !== 'undefined' && window.tailwind) {
+        window.tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                brand: {
+                  red: '#E51B23',
+                  redDark: '#C4141B',
+                  black: '#171717',
+                  charcoal: '#222222',
+                  grey: '#777777',
+                  light: '#F7F7F8',
+                }
+              },
+              fontFamily: {
+                heading: ['Montserrat', 'sans-serif'],
+                sans: ['Inter', 'sans-serif'],
+              },
+              boxShadow: {
+                'card': '0 10px 30px -10px rgba(23, 23, 23, 0.08)',
+                'card-hover': '0 20px 40px -12px rgba(23, 23, 23, 0.16)',
+                'red-glow': '0 10px 25px -5px rgba(229, 27, 35, 0.35)',
+              }
             }
-          },
-          fontFamily: {
-            heading: ['Montserrat', 'sans-serif'],
-            sans: ['Inter', 'sans-serif'],
-          },
-          boxShadow: {
-            'card': '0 10px 30px -10px rgba(23, 23, 23, 0.08)',
-            'card-hover': '0 20px 40px -12px rgba(23, 23, 23, 0.16)',
-            'red-glow': '0 10px 25px -5px rgba(229, 27, 35, 0.35)',
           }
-        }
+        };
       }
     }
+    configureTailwind();
+    window.addEventListener('load', configureTailwind);
   </script>
 
   <style>
@@ -120,6 +127,14 @@
       </div>
 
       <div class="flex items-center gap-3 sm:gap-5 ms-auto">
+        <!-- Super Admin Quick Trigger -->
+        <button onclick="openAdminModal()" class="hover:text-brand-red transition-colors flex items-center gap-1.5 font-bold text-brand-red">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Super Admin</span>
+        </button>
+
+        <span class="text-white/25">|</span>
+
         <!-- Track Order Quick Trigger -->
         <button onclick="openAccountModal('orders')" class="hover:text-brand-red transition-colors flex items-center gap-1.5 font-medium">
           <i class="fa-solid fa-truck-fast text-brand-red"></i>
@@ -229,14 +244,14 @@
         <button onclick="openQuoteDrawer(); toggleMobileMenu();" class="flex-1 py-3 rounded-xl bg-brand-black text-white font-heading font-bold text-xs uppercase tracking-wider text-center">
           <i class="fa-solid fa-file-invoice me-1.5"></i> <span data-i18n="btn_quote">B2B Quote</span>
         </button>
-        <button onclick="openAccountModal('orders'); toggleMobileMenu();" class="flex-1 py-3 rounded-xl border border-gray-300 text-brand-black font-heading font-bold text-xs uppercase tracking-wider text-center">
-          <i class="fa-solid fa-truck-fast me-1.5"></i> <span data-i18n="nav_track">Track Order</span>
+        <button onclick="openAdminModal(); toggleMobileMenu();" class="flex-1 py-3 rounded-xl bg-brand-red text-white font-heading font-bold text-xs uppercase tracking-wider text-center">
+          <i class="fa-solid fa-shield-halved me-1.5"></i> <span>Super Admin</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- ==================== MAIN SPA VIEWPORT ==================== -->
+  <!-- ==================== MAIN SPA VIEWPORT (USER STOREFRONT) ==================== -->
   <main id="appViewport" class="flex-1">
     <!-- Content dynamically rendered by JS router -->
   </main>
@@ -529,6 +544,40 @@
     </div>
   </div>
 
+  <!-- 7. SUPER ADMIN CONSOLE MODAL -->
+  <div id="superAdminModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+    <div class="bg-white rounded-3xl max-w-6xl w-full overflow-hidden shadow-2xl border border-gray-200 my-4 flex flex-col max-h-[92vh]">
+      <!-- Admin Header -->
+      <div class="px-6 py-4 bg-brand-black text-white flex flex-wrap items-center justify-between gap-3 border-b border-white/10">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-brand-red flex items-center justify-center text-white shadow-red-glow">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="font-heading font-black text-base uppercase tracking-wider">PULSEN FIT — SUPER ADMIN</h3>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold">ROOT ACCESS</span>
+            </div>
+            <p class="text-[11px] text-gray-400">Live Catalog, Pricing, B2C Orders & B2B Quotation Control</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="adminLockBtn" onclick="lockAdminSession()" class="hidden px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold text-gray-200 transition-colors">
+            <i class="fa-solid fa-lock me-1"></i> Lock
+          </button>
+          <button onclick="closeAdminModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition-colors">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Body (Login Gate or Full Dashboard) -->
+      <div id="superAdminBody" class="flex-1 overflow-y-auto bg-brand-light">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toastContainer" class="fixed top-24 end-5 z-50 space-y-2 pointer-events-none"></div>
 
@@ -707,7 +756,7 @@
       }
     };
 
-    // 3. PRODUCT CATALOG DATA (Aligned with OlympiCA product families + realistic photography)
+    // 3. PRODUCT CATALOG DATA
     const PRODUCTS = [
       {
         id: 'pf-bike-x1',
@@ -935,6 +984,12 @@
         segment: 'All',
         maxPriceEUR: 4000,
         sort: 'featured'
+      },
+      admin: {
+        authenticated: false,
+        activeTab: 'overview',
+        pinCode: '2026',
+        editingProductId: null
       }
     };
 
@@ -2043,6 +2098,7 @@
         step: 1
       });
 
+      saveAdminPersistence();
       state.cart = [];
       updateBadges();
 
@@ -2152,6 +2208,7 @@
         status: 'Under B2B Engineering Review'
       });
 
+      saveAdminPersistence();
       closeQuoteDrawer();
       showToast(`Quote ${ref} submitted successfully!`);
       openAccountModal('quotes');
@@ -2208,7 +2265,6 @@
       const items = state.compareList.map(id => PRODUCTS.find(p => p.id === id));
       if (items.length === 0) return;
 
-      const specRows = ['Category', 'Target Segment', 'Indicative Price', 'Resistance / Drive', 'Max User Weight', 'Dimensions'];
       document.getElementById('compareTableContainer').innerHTML = `
         <table class="w-full text-left border-collapse text-xs">
           <thead>
@@ -2382,9 +2438,547 @@
 
     // INITIALIZE APP ON LOAD
     window.addEventListener('DOMContentLoaded', () => {
+      loadAdminPersistence();
       updateBadges();
       renderCurrentPage();
     });
+
+    // =========================================================================
+    // 21. SUPER ADMIN DASHBOARD ENGINE (PERSISTENT LOCALSTORAGE + LIVE SYNC)
+    // =========================================================================
+    function loadAdminPersistence() {
+      try {
+        const savedProducts = localStorage.getItem('pulsen_admin_products');
+        if (savedProducts) {
+          const parsed = JSON.parse(savedProducts);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            PRODUCTS.length = 0;
+            parsed.forEach(item => PRODUCTS.push(item));
+          }
+        }
+        const savedOrders = localStorage.getItem('pulsen_admin_orders');
+        if (savedOrders) state.orders = JSON.parse(savedOrders);
+
+        const savedQuotes = localStorage.getItem('pulsen_admin_quotes');
+        if (savedQuotes) state.submittedQuotes = JSON.parse(savedQuotes);
+      } catch (err) {
+        console.warn('Admin storage sync skipped:', err);
+      }
+    }
+
+    function saveAdminPersistence() {
+      try {
+        localStorage.setItem('pulsen_admin_products', JSON.stringify(PRODUCTS));
+        localStorage.setItem('pulsen_admin_orders', JSON.stringify(state.orders));
+        localStorage.setItem('pulsen_admin_quotes', JSON.stringify(state.submittedQuotes));
+      } catch (err) {
+        console.warn('Unable to persist admin state:', err);
+      }
+    }
+
+    function openAdminModal() {
+      document.getElementById('superAdminModal').classList.remove('hidden');
+      renderSuperAdmin();
+    }
+
+    function closeAdminModal() {
+      document.getElementById('superAdminModal').classList.add('hidden');
+    }
+
+    function lockAdminSession() {
+      state.admin.authenticated = false;
+      renderSuperAdmin();
+      showToast('Super Admin session locked');
+    }
+
+    function verifyAdminLogin(e) {
+      e.preventDefault();
+      const inputPin = document.getElementById('adminPinInput').value.trim();
+      if (inputPin === state.admin.pinCode) {
+        state.admin.authenticated = true;
+        renderSuperAdmin();
+        showToast('Welcome back, Super Admin');
+      } else {
+        showToast('Invalid Admin PIN. Use 2026 to unlock.', 'info');
+      }
+    }
+
+    function switchAdminTab(tab) {
+      state.admin.activeTab = tab;
+      state.admin.editingProductId = null;
+      renderSuperAdmin();
+    }
+
+    function renderSuperAdmin() {
+      const container = document.getElementById('superAdminBody');
+      const lockBtn = document.getElementById('adminLockBtn');
+
+      if (!state.admin.authenticated) {
+        lockBtn.classList.add('hidden');
+        container.innerHTML = `
+          <div class="p-8 sm:p-14 flex items-center justify-center min-h-[420px]">
+            <form onsubmit="verifyAdminLogin(event)" class="bg-white p-8 rounded-3xl border border-gray-200 shadow-xl max-w-md w-full space-y-5 text-center">
+              <div class="w-14 h-14 rounded-2xl bg-brand-black text-brand-red flex items-center justify-center text-2xl mx-auto">
+                <i class="fa-solid fa-key"></i>
+              </div>
+              <div>
+                <h4 class="font-heading font-black text-xl uppercase text-brand-black">Super Admin Authentication</h4>
+                <p class="text-xs text-brand-grey mt-1">Enter your PULSEN FIT master PIN to manage catalog, prices, orders & B2B quotes.</p>
+              </div>
+              <div class="text-start">
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Master PIN</label>
+                <input type="password" id="adminPinInput" value="2026" required placeholder="••••" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-center font-mono text-lg tracking-[0.4em] focus:outline-none focus:border-brand-red" />
+                <p class="text-[11px] text-gray-400 mt-1.5 text-center">Default Demo PIN: <strong class="text-brand-black font-mono">2026</strong></p>
+              </div>
+              <button type="submit" class="w-full py-3.5 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold text-xs uppercase tracking-wider shadow-red-glow transition-all">
+                Unlock Control Center
+              </button>
+            </form>
+          </div>
+        `;
+        return;
+      }
+
+      lockBtn.classList.remove('hidden');
+
+      const totalRevenueEUR = state.orders.reduce((sum, o) => sum + (o.totalEUR || 0), 0);
+      const b2bCount = PRODUCTS.filter(p => p.segmentCode === 'B2B').length;
+      const b2cCount = PRODUCTS.filter(p => p.segmentCode === 'B2C').length;
+      const tab = state.admin.activeTab;
+
+      container.innerHTML = `
+        <!-- Admin Navigation Tabs -->
+        <div class="bg-white border-b border-gray-200 px-6 pt-3 flex flex-wrap gap-2">
+          ${[
+            { id: 'overview', icon: 'fa-chart-line', label: 'Dashboard KPI' },
+            { id: 'products', icon: 'fa-dumbbell', label: `Catalog & Pricing (${PRODUCTS.length})` },
+            { id: 'orders', icon: 'fa-truck-fast', label: `B2C Orders (${state.orders.length})` },
+            { id: 'quotes', icon: 'fa-file-invoice-dollar', label: `B2B Quotes (${state.submittedQuotes.length})` },
+            { id: 'settings', icon: 'fa-sliders', label: 'FX & Store Settings' }
+          ].map(item => `
+            <button onclick="switchAdminTab('${item.id}')" class="px-4 py-2.5 rounded-t-xl text-xs font-heading font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-all ${tab === item.id ? 'border-brand-red text-brand-red bg-brand-light' : 'border-transparent text-gray-500 hover:text-brand-black'}">
+              <i class="fa-solid ${item.icon}"></i>
+              <span>${item.label}</span>
+            </button>
+          `).join('')}
+        </div>
+
+        <div class="p-6 space-y-6">
+          ${tab === 'overview' ? `
+            <!-- KPI Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs">
+                <span class="text-[11px] font-bold uppercase text-brand-grey">Gross B2C Order Volume</span>
+                <p class="font-heading font-black text-2xl text-brand-black mt-1">${formatPrice(totalRevenueEUR)}</p>
+                <span class="text-[11px] text-emerald-600 font-semibold">${state.orders.length} active order(s)</span>
+              </div>
+              <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs">
+                <span class="text-[11px] font-bold uppercase text-brand-grey">Active Equipment SKUs</span>
+                <p class="font-heading font-black text-2xl text-brand-black mt-1">${PRODUCTS.length} Machines</p>
+                <span class="text-[11px] text-gray-500 font-semibold">${b2cCount} Home &bull; ${b2bCount} Commercial</span>
+              </div>
+              <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs">
+                <span class="text-[11px] font-bold uppercase text-brand-grey">B2B Fleet Proposals</span>
+                <p class="font-heading font-black text-2xl text-brand-red mt-1">${state.submittedQuotes.length} Quotes</p>
+                <span class="text-[11px] text-gray-500 font-semibold">Gyms, Hotels & Distributors</span>
+              </div>
+              <div class="bg-brand-black text-white p-5 rounded-2xl shadow-xs">
+                <span class="text-[11px] font-bold uppercase text-gray-400">Active Currency Rate</span>
+                <p class="font-heading font-black text-2xl text-white mt-1">1 EUR = ${CURRENCIES.MAD.rate} MAD</p>
+                <span class="text-[11px] text-brand-red font-semibold">Casablanca & Export Sync</span>
+              </div>
+            </div>
+
+            <!-- Quick Actions & Recent Activity -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="bg-white p-6 rounded-2xl border border-gray-200 space-y-4">
+                <div class="flex items-center justify-between">
+                  <h4 class="font-heading font-bold text-xs uppercase tracking-wider text-brand-black">Recent B2C Orders</h4>
+                  <button onclick="switchAdminTab('orders')" class="text-xs font-bold text-brand-red hover:underline">Manage All</button>
+                </div>
+                <div class="divide-y divide-gray-100">
+                  ${state.orders.slice(0, 4).map(o => `
+                    <div class="py-3 flex items-center justify-between text-xs">
+                      <div>
+                        <p class="font-mono font-bold text-brand-black">${o.id} — ${o.customer}</p>
+                        <p class="text-gray-500 truncate max-w-xs">${o.items}</p>
+                      </div>
+                      <span class="font-heading font-extrabold text-brand-red">${formatPrice(o.totalEUR)}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="bg-white p-6 rounded-2xl border border-gray-200 space-y-4">
+                <div class="flex items-center justify-between">
+                  <h4 class="font-heading font-bold text-xs uppercase tracking-wider text-brand-black">Recent B2B Quote Requests</h4>
+                  <button onclick="switchAdminTab('quotes')" class="text-xs font-bold text-brand-red hover:underline">Review Quotes</button>
+                </div>
+                <div class="divide-y divide-gray-100">
+                  ${state.submittedQuotes.slice(0, 4).map(q => `
+                    <div class="py-3 flex items-center justify-between text-xs">
+                      <div>
+                        <p class="font-bold text-brand-black">${q.company} <span class="text-gray-400 font-mono">(${q.ref})</span></p>
+                        <p class="text-gray-500 truncate max-w-xs">${q.itemsSummary}</p>
+                      </div>
+                      <span class="px-2 py-0.5 rounded bg-brand-black text-white text-[10px] font-bold">${q.status}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          ` : ''}
+
+          ${tab === 'products' ? renderAdminProductsTab() : ''}
+          ${tab === 'orders' ? renderAdminOrdersTab() : ''}
+          ${tab === 'quotes' ? renderAdminQuotesTab() : ''}
+          ${tab === 'settings' ? renderAdminSettingsTab() : ''}
+        </div>
+      `;
+    }
+
+    function renderAdminProductsTab() {
+      const editingProd = state.admin.editingProductId
+        ? PRODUCTS.find(p => p.id === state.admin.editingProductId)
+        : null;
+
+      return `
+        <div class="space-y-6">
+          <!-- Add or Edit Equipment Form -->
+          <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-heading font-extrabold text-sm uppercase text-brand-black">
+                ${editingProd ? `Edit Machine: ${editingProd.name}` : '+ Add New Equipment to Storefront'}
+              </h4>
+              ${editingProd ? `<button onclick="state.admin.editingProductId=null; renderSuperAdmin();" class="text-xs font-bold text-gray-500 hover:text-brand-black">Cancel Edit</button>` : ''}
+            </div>
+
+            <form onsubmit="saveAdminProduct(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 text-xs">
+              <div>
+                <label class="block font-bold text-gray-600 mb-1">Model Name *</label>
+                <input type="text" id="admProdName" required value="${editingProd ? editingProd.name : ''}" placeholder="e.g., PULSEN Run X950" class="w-full px-3 py-2 rounded-xl border border-gray-300 focus:border-brand-red focus:outline-none" />
+              </div>
+              <div>
+                <label class="block font-bold text-gray-600 mb-1">SKU Code *</label>
+                <input type="text" id="admProdSku" required value="${editingProd ? editingProd.sku : 'PF-NEW-' + Math.floor(100 + Math.random()*899)}" class="w-full px-3 py-2 rounded-xl border border-gray-300 font-mono focus:border-brand-red focus:outline-none" />
+              </div>
+              <div>
+                <label class="block font-bold text-gray-600 mb-1">Category *</label>
+                <select id="admProdCat" class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white focus:border-brand-red focus:outline-none">
+                  ${['Treadmills', 'Exercise Bikes', 'Rowing Machines', 'Elliptical Trainers'].map(c => `
+                    <option value="${c}" ${editingProd && editingProd.category === c ? 'selected' : ''}>${c}</option>
+                  `).join('')}
+                </select>
+              </div>
+              <div>
+                <label class="block font-bold text-gray-600 mb-1">Segment *</label>
+                <select id="admProdSeg" class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white focus:border-brand-red focus:outline-none">
+                  <option value="B2C" ${editingProd && editingProd.segmentCode === 'B2C' ? 'selected' : ''}>Home / B2C</option>
+                  <option value="B2B" ${editingProd && editingProd.segmentCode === 'B2B' ? 'selected' : ''}>Commercial Pro / B2B</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-bold text-gray-600 mb-1">Base Price (EUR €) *</label>
+                <input type="number" id="admProdPrice" required min="50" step="1" value="${editingProd ? editingProd.priceEUR : 1290}" class="w-full px-3 py-2 rounded-xl border border-gray-300 font-bold focus:border-brand-red focus:outline-none" />
+              </div>
+              <div>
+                <label class="block font-bold text-gray-600 mb-1">Availability *</label>
+                <select id="admProdStock" class="w-full px-3 py-2 rounded-xl border border-gray-300 bg-white focus:border-brand-red focus:outline-none">
+                  <option value="In Stock" ${editingProd && editingProd.availability === 'In Stock' ? 'selected' : ''}>In Stock</option>
+                  <option value="Made to Order" ${editingProd && editingProd.availability === 'Made to Order' ? 'selected' : ''}>Made to Order</option>
+                  <option value="Out of Stock" ${editingProd && editingProd.availability === 'Out of Stock' ? 'selected' : ''}>Out of Stock</option>
+                </select>
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block font-bold text-gray-600 mb-1">Subtitle / Technical Tagline *</label>
+                <input type="text" id="admProdSub" required value="${editingProd ? editingProd.subtitle : 'Commercial Grade Cardio System'}" class="w-full px-3 py-2 rounded-xl border border-gray-300 focus:border-brand-red focus:outline-none" />
+              </div>
+              <div class="sm:col-span-3">
+                <label class="block font-bold text-gray-600 mb-1">Product Image URL</label>
+                <input type="url" id="admProdImg" value="${editingProd ? editingProd.images[0] : 'https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=900&q=80'}" class="w-full px-3 py-2 rounded-xl border border-gray-300 focus:border-brand-red focus:outline-none" />
+              </div>
+              <div class="flex items-end">
+                <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-heading font-bold uppercase tracking-wider shadow-red-glow transition-all">
+                  ${editingProd ? 'Update Machine' : 'Publish Machine'}
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Live Catalog Table -->
+          <div class="bg-white rounded-2xl border border-gray-200 overflow-x-auto shadow-xs">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead class="bg-brand-black text-white uppercase font-heading">
+                <tr>
+                  <th class="p-3.5">Machine</th>
+                  <th class="p-3.5">SKU</th>
+                  <th class="p-3.5">Segment</th>
+                  <th class="p-3.5">Price (EUR / Local)</th>
+                  <th class="p-3.5">Stock Status</th>
+                  <th class="p-3.5 text-end">Admin Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                ${PRODUCTS.map(p => `
+                  <tr class="hover:bg-gray-50">
+                    <td class="p-3.5 flex items-center gap-3">
+                      <img src="${p.images[0]}" alt="${p.name}" class="w-11 h-11 rounded-lg object-cover shrink-0" />
+                      <div>
+                        <p class="font-heading font-bold text-brand-black">${p.name}</p>
+                        <p class="text-[11px] text-gray-500">${p.category}</p>
+                      </div>
+                    </td>
+                    <td class="p-3.5 font-mono text-gray-600">${p.sku}</td>
+                    <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-gray-100 font-bold text-brand-black">${p.segment}</span></td>
+                    <td class="p-3.5">
+                      <span class="font-heading font-extrabold text-brand-black">${p.priceEUR} €</span>
+                      <span class="block text-[10px] text-brand-red font-semibold">${formatPrice(p.priceEUR)}</span>
+                    </td>
+                    <td class="p-3.5">
+                      <select onchange="quickUpdateStock('${p.id}', this.value)" class="px-2.5 py-1 rounded-lg border border-gray-300 font-semibold bg-white">
+                        <option value="In Stock" ${p.availability === 'In Stock' ? 'selected' : ''}>In Stock</option>
+                        <option value="Made to Order" ${p.availability === 'Made to Order' ? 'selected' : ''}>Made to Order</option>
+                        <option value="Out of Stock" ${p.availability === 'Out of Stock' ? 'selected' : ''}>Out of Stock</option>
+                      </select>
+                    </td>
+                    <td class="p-3.5 text-end space-x-1.5 whitespace-nowrap">
+                      <button onclick="state.admin.editingProductId='${p.id}'; renderSuperAdmin();" class="px-2.5 py-1.5 rounded-lg bg-brand-black text-white hover:bg-gray-800 font-bold">Edit</button>
+                      <button onclick="deleteAdminProduct('${p.id}')" class="px-2.5 py-1.5 rounded-lg bg-red-50 text-brand-red hover:bg-brand-red hover:text-white font-bold">Delete</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function saveAdminProduct(e) {
+      e.preventDefault();
+      const name = document.getElementById('admProdName').value.trim();
+      const sku = document.getElementById('admProdSku').value.trim();
+      const category = document.getElementById('admProdCat').value;
+      const segmentCode = document.getElementById('admProdSeg').value;
+      const segment = segmentCode === 'B2B' ? 'Commercial Pro / B2B' : 'Home / B2C';
+      const priceEUR = Number(document.getElementById('admProdPrice').value);
+      const availability = document.getElementById('admProdStock').value;
+      const subtitle = document.getElementById('admProdSub').value.trim();
+      const imgUrl = document.getElementById('admProdImg').value.trim() || 'https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=900&q=80';
+
+      if (state.admin.editingProductId) {
+        const idx = PRODUCTS.findIndex(p => p.id === state.admin.editingProductId);
+        if (idx !== -1) {
+          PRODUCTS[idx] = {
+            ...PRODUCTS[idx],
+            name,
+            sku,
+            category,
+            segmentCode,
+            segment,
+            priceEUR,
+            availability,
+            subtitle,
+            images: [imgUrl, ...PRODUCTS[idx].images.slice(1)]
+          };
+        }
+        state.admin.editingProductId = null;
+        showToast(`${name} updated live!`);
+      } else {
+        PRODUCTS.unshift({
+          id: 'pf-' + Date.now(),
+          sku,
+          name,
+          subtitle,
+          category,
+          segment,
+          segmentCode,
+          priceEUR,
+          availability,
+          featured: true,
+          images: [imgUrl],
+          description: `${name} — ${subtitle}. Precision-engineered by PULSEN FIT for enduring performance and ergonomic comfort.`,
+          benefits: [
+            'High-durability commercial-grade frame architecture',
+            'Precision digital console with live workout telemetry',
+            'Ergonomic contact points engineered for low joint impact'
+          ],
+          specs: {
+            'Drive System': 'PULSEN Precision Drive',
+            'Console': 'Backlit LED / OLED Telemetry',
+            'Warranty': '2 Years Frame & Parts',
+            'Max User Weight': '150 kg (Sample Spec)',
+            'Dimensions (L×W×H)': '190 × 82 × 145 cm'
+          },
+          deliveryInfo: 'Available for Morocco COD & international freight dispatch.'
+        });
+        showToast(`${name} published to storefront!`);
+      }
+
+      saveAdminPersistence();
+      renderSuperAdmin();
+      renderCurrentPage();
+    }
+
+    function quickUpdateStock(productId, status) {
+      const p = PRODUCTS.find(item => item.id === productId);
+      if (p) {
+        p.availability = status;
+        saveAdminPersistence();
+        renderCurrentPage();
+        showToast(`${p.name} marked as ${status}`);
+      }
+    }
+
+    function deleteAdminProduct(productId) {
+      if (PRODUCTS.length <= 1) {
+        showToast('At least 1 product must remain in the catalog.', 'info');
+        return;
+      }
+      const idx = PRODUCTS.findIndex(p => p.id === productId);
+      if (idx !== -1) {
+        const removedName = PRODUCTS[idx].name;
+        PRODUCTS.splice(idx, 1);
+        saveAdminPersistence();
+        renderSuperAdmin();
+        renderCurrentPage();
+        showToast(`${removedName} removed from catalog`);
+      }
+    }
+
+    function renderAdminOrdersTab() {
+      const statuses = [
+        { label: 'Order Confirmed — Preparing Dispatch', step: 1 },
+        { label: 'Dispatched from Casablanca Warehouse', step: 2 },
+        { label: 'In Transit — Local Courier', step: 3 },
+        { label: 'Delivered & Completed', step: 4 }
+      ];
+
+      return `
+        <div class="bg-white rounded-2xl border border-gray-200 overflow-x-auto shadow-xs">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-brand-black text-white uppercase font-heading">
+              <tr>
+                <th class="p-3.5">Order Ref</th>
+                <th class="p-3.5">Customer & City</th>
+                <th class="p-3.5">Equipment</th>
+                <th class="p-3.5">Total</th>
+                <th class="p-3.5">Fulfillment Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              ${state.orders.map((ord, idx) => `
+                <tr>
+                  <td class="p-3.5 font-mono font-bold text-brand-red">${ord.id}<span class="block text-[10px] text-gray-400 font-sans">${ord.date}</span></td>
+                  <td class="p-3.5 font-semibold text-brand-black">${ord.customer}<span class="block text-[11px] text-gray-500 font-normal">${ord.payment}</span></td>
+                  <td class="p-3.5 text-gray-700">${ord.items}</td>
+                  <td class="p-3.5 font-heading font-extrabold">${formatPrice(ord.totalEUR)}</td>
+                  <td class="p-3.5">
+                    <select onchange="updateAdminOrderStatus(${idx}, this.value)" class="px-3 py-1.5 rounded-xl border border-gray-300 font-semibold bg-brand-light text-brand-black">
+                      ${statuses.map(s => `<option value="${s.label}|${s.step}" ${ord.step === s.step ? 'selected' : ''}>${s.label}</option>`).join('')}
+                    </select>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function updateAdminOrderStatus(orderIdx, packedValue) {
+      const [statusLabel, stepStr] = packedValue.split('|');
+      state.orders[orderIdx].status = statusLabel;
+      state.orders[orderIdx].step = Number(stepStr);
+      saveAdminPersistence();
+      showToast(`Order ${state.orders[orderIdx].id} updated to step ${stepStr}/4`);
+    }
+
+    function renderAdminQuotesTab() {
+      const quoteStatuses = ['Under B2B Engineering Review', 'Proposal Sent', 'Negotiation / Volume Tier', 'Approved & Invoiced'];
+      return `
+        <div class="bg-white rounded-2xl border border-gray-200 overflow-x-auto shadow-xs">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-brand-black text-white uppercase font-heading">
+              <tr>
+                <th class="p-3.5">Quote Ref</th>
+                <th class="p-3.5">Organization & Segment</th>
+                <th class="p-3.5">Requested Fleet</th>
+                <th class="p-3.5">Pipeline Stage</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              ${state.submittedQuotes.map((q, idx) => `
+                <tr>
+                  <td class="p-3.5 font-mono font-bold text-brand-red">${q.ref}<span class="block text-[10px] text-gray-400 font-sans">${q.date}</span></td>
+                  <td class="p-3.5 font-bold text-brand-black">${q.company}<span class="block text-[11px] text-gray-500 font-normal">${q.segment}</span></td>
+                  <td class="p-3.5 text-gray-700">${q.itemsSummary}</td>
+                  <td class="p-3.5">
+                    <select onchange="updateAdminQuoteStatus(${idx}, this.value)" class="px-3 py-1.5 rounded-xl border border-gray-300 font-semibold bg-brand-light text-brand-black">
+                      ${quoteStatuses.map(st => `<option value="${st}" ${q.status === st ? 'selected' : ''}>${st}</option>`).join('')}
+                    </select>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function updateAdminQuoteStatus(quoteIdx, newStatus) {
+      state.submittedQuotes[quoteIdx].status = newStatus;
+      saveAdminPersistence();
+      showToast(`B2B Quote ${state.submittedQuotes[quoteIdx].ref} → ${newStatus}`);
+    }
+
+    function renderAdminSettingsTab() {
+      return `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form onsubmit="updateAdminRates(event)" class="bg-white p-6 rounded-2xl border border-gray-200 space-y-4 text-xs">
+            <h4 class="font-heading font-extrabold text-sm uppercase text-brand-black">Currency Conversion Rates (Base: 1 EUR)</h4>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block font-bold text-gray-600 mb-1">Moroccan Dirham (MAD)</label>
+                <input type="number" step="0.01" id="admRateMad" value="${CURRENCIES.MAD.rate}" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 font-bold" />
+              </div>
+              <div>
+                <label class="block font-bold text-gray-600 mb-1">US Dollar (USD)</label>
+                <input type="number" step="0.01" id="admRateUsd" value="${CURRENCIES.USD.rate}" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 font-bold" />
+              </div>
+            </div>
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-brand-black hover:bg-brand-red text-white font-heading font-bold uppercase tracking-wider transition-colors">
+              Save Exchange Rates
+            </button>
+          </form>
+
+          <div class="bg-white p-6 rounded-2xl border border-gray-200 space-y-4 text-xs">
+            <h4 class="font-heading font-extrabold text-sm uppercase text-brand-black">Catalog Data Reset</h4>
+            <p class="text-gray-600 leading-relaxed">Reset local browser edits back to the factory PULSEN FIT default catalog and demo records.</p>
+            <button onclick="resetAdminFactoryData()" class="px-5 py-2.5 rounded-xl border border-brand-red text-brand-red hover:bg-brand-red hover:text-white font-heading font-bold uppercase tracking-wider transition-colors">
+              Restore Factory Defaults
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function updateAdminRates(e) {
+      e.preventDefault();
+      CURRENCIES.MAD.rate = parseFloat(document.getElementById('admRateMad').value) || 10.8;
+      CURRENCIES.USD.rate = parseFloat(document.getElementById('admRateUsd').value) || 1.09;
+      renderCurrentPage();
+      renderSuperAdmin();
+      showToast('Live exchange rates updated!');
+    }
+
+    function resetAdminFactoryData() {
+      localStorage.removeItem('pulsen_admin_products');
+      localStorage.removeItem('pulsen_admin_orders');
+      localStorage.removeItem('pulsen_admin_quotes');
+      showToast('Factory catalog restored. Reloading...');
+      setTimeout(() => location.reload(), 600);
+    }
   </script>
 </body>
 </html>
